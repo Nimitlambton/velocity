@@ -12,6 +12,36 @@ import UIKit
 
 extension UIView{
     
+    
+    
+    func myContainers(img:UIImage , text: UITextField) -> UIView {
+   
+                let view = UIView()
+        
+                let imageview = UIImageView()
+                imageview.image = img
+                imageview.alpha = 0.87
+                view.addSubview(imageview)
+                imageview.centerY(inView: view)
+                imageview.myanchor(left:view.leftAnchor, paddingLeft: 8 ,width: 32,height: 32)
+        
+        
+                view.addSubview(text)
+                text.centerY(inView: view)
+                text.myanchor(left:imageview.rightAnchor,bottom: view.bottomAnchor,right: view.rightAnchor, paddingLeft: 8,paddingRight: 8)
+        
+        
+                let separatorView = UIView()
+                separatorView.backgroundColor = .red
+                view.addSubview(separatorView)
+                separatorView.myanchor(left:view.leftAnchor,bottom:view.bottomAnchor,right:view.rightAnchor,paddingLeft: 8,height:  0.75)
+        return view
+    }
+    
+    
+    
+   
+    
     func myanchor(top: NSLayoutYAxisAnchor? = nil,
                   left : NSLayoutXAxisAnchor? = nil,
                   bottom : NSLayoutYAxisAnchor? = nil,
@@ -74,18 +104,12 @@ extension UIView{
           
           centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
       }
-      
-    
-   
-    
-    
-    
     
 }
 extension UITextField{
     
     
-    func textField(withplace placeholder:String,isSecureTextEntry:Bool)->UITextField{
+    func textField(placeholder:String,isSecureTextEntry:Bool)->UITextField{
         
         
             let tf = UITextField()
@@ -96,5 +120,12 @@ extension UITextField{
                      tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor :UIColor.lightGray])
                      return tf
     }
-    
+  
 }
+
+
+
+extension UIColor {
+      
+      
+  }
