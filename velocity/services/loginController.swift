@@ -44,13 +44,12 @@ class loginController: UIViewController {
     
    private let  loginButton  :UIButton = {
            
-    let b = UIButton(type: .system)
-           b.setTitle("Log In" ,for: .normal)
-           b.setTitleColor(.white, for: .normal)
-           b.heightAnchor.constraint(equalToConstant: 50)
-           b.backgroundColor = .red
+    let b = authButton(type: .system)
+    
+             b.setTitle("Log In" ,for: .normal)
            return b
        }()
+    
     let dontHaveAccountButoon :UIButton = {
         
         let button = UIButton(type: .system)
@@ -88,30 +87,8 @@ class loginController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .orange
-        
-        //textlabel
-        view.addSubview(titleLabel)
-        titleLabel.myanchor(top: view.safeAreaLayoutGuide.topAnchor)
-        titleLabel.centerX(inView: view)
-        
-
-        //stackview for email and password textfield
-        let stack = UIStackView(arrangedSubviews:      [emailcontainerView,passwordContainerView,loginButton])
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 16
-
-        view.addSubview(stack)
-        stack.myanchor(top:titleLabel.bottomAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14)
-        
-        view.addSubview(dontHaveAccountButoon)
-        dontHaveAccountButoon.myanchor(left: view.leftAnchor, bottom:view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14, height: 50)
-        
-    
-        
-    }
+        configureUi()
+         }
     
 
     
@@ -119,7 +96,42 @@ class loginController: UIViewController {
     
     @objc func handelSingup(){
         
-    print("123")
+  
+       let controller = signUpController()
+        
+        navigationController?.pushViewController(controller, animated: true)
+        
+    }
+    
+    func configureUi(){
+        
+        
+        view.backgroundColor = .orange
+           
+           configureNavigation()
+           view.addSubview(titleLabel)
+           titleLabel.myanchor(top: view.safeAreaLayoutGuide.topAnchor)
+           titleLabel.centerX(inView: view)
+           
+
+           //stackview for email and password textfield
+           let stack = UIStackView(arrangedSubviews:      [emailcontainerView,passwordContainerView,loginButton])
+           stack.axis = .vertical
+           stack.distribution = .fillEqually
+           stack.spacing = 16
+
+           view.addSubview(stack)
+           stack.myanchor(top:titleLabel.bottomAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14)
+           
+           view.addSubview(dontHaveAccountButoon)
+           dontHaveAccountButoon.myanchor(left: view.leftAnchor, bottom:view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14, height: 50)
+        
+        
+    }
+    
+    
+    func configureNavigation(){
+        navigationController?.navigationBar.isHidden = true
     }
 
 }
