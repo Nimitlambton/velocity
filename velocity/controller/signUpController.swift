@@ -8,7 +8,7 @@
 
 import Foundation
 import  UIKit
-
+import  Firebase
 class signUpController : UIViewController{
      
     
@@ -60,9 +60,9 @@ class signUpController : UIViewController{
              
       let b = authButton(type: .system)
       
-               b.setTitle("SignUp" ,for: .normal)
-       
-             return b
+       b.setTitle("SignUp" ,for: .normal)
+       b.addTarget(self, action:  #selector(handelSignup), for: .touchUpInside)
+       return b
          }()
     
     
@@ -166,6 +166,38 @@ class signUpController : UIViewController{
         navigationController?.popViewController(animated: true)
         
     }
+    
+    @objc func handelSignup(){
+        guard let email = emailTextField.text else {return}
+        guard let password  = passwordTextField.text else {return}
+        guard let fullname  = fullNameTextField.text else {return}
+        let accountIndex  = AcountTypeSementedControl.selectedSegmentIndex
+
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            
+            if let error = error{
+                
+                print(error)
+                return
+            }
+            
+            guard let uid = result?.user.uid else {return}
+            
+            let value = ["email:": email ,
+                         "fullname":fullname,
+                           "accountType":accountIndex ] as [String: Any]
+            
+            Database.database().reference().child(uid).updateChildValues(value) { (Error , ref) in
+                print("succsfull")
+            }
+        }
+        
+           
+       }
+
+    
+    
     
     
     

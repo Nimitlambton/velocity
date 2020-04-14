@@ -10,7 +10,7 @@
 
 import Foundation
 import UIKit
-
+import Firebase
 class loginController: UIViewController {
 
     
@@ -45,9 +45,9 @@ class loginController: UIViewController {
    private let  loginButton  :UIButton = {
            
     let b = authButton(type: .system)
-    
-             b.setTitle("Log In" ,for: .normal)
-           return b
+    b.setTitle("Log In" ,for: .normal)
+    b.addTarget(self, action:  #selector(handelLogin), for: .touchUpInside)
+    return b
        }()
     
     let dontHaveAccountButoon :UIButton = {
@@ -103,6 +103,28 @@ class loginController: UIViewController {
         
     }
     
+    @objc func handelLogin(){
+        
+        guard let email = emailTextField.text else {return}
+        guard let password  = passwordTextField.text else {return}
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (Result, error) in
+           
+            if let error = error{
+                
+               print(error)
+            return
+            }
+           
+            
+            print("succes")
+        }
+        
+      
+        
+    }
+    
+    
     func configureUi(){
         
         
@@ -134,4 +156,6 @@ class loginController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
+    
+    
 }
