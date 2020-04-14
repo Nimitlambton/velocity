@@ -11,9 +11,12 @@
 import Foundation
 import UIKit
 import Firebase
+import MapKit
 class loginController: UIViewController {
 
     
+    
+   
     
     //MARK: - all properties
     private let titleLabel: UILabel = {
@@ -116,8 +119,7 @@ class loginController: UIViewController {
             return
             }
            
-            
-            print("succes")
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
       
@@ -157,5 +159,6 @@ class loginController: UIViewController {
     }
 
     
+   
     
 }

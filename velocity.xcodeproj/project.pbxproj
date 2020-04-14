@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		383FC6F4244631320058BB5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 383FC6F3244631320058BB5D /* GoogleService-Info.plist */; };
+		383FC6F6244666920058BB5D /* homeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383FC6F5244666920058BB5D /* homeController.swift */; };
 		384209B72442613C00035EC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384209B62442613C00035EC9 /* AppDelegate.swift */; };
 		384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384209B82442613C00035EC9 /* SceneDelegate.swift */; };
 		384209BE2442613C00035EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384209BC2442613C00035EC9 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		383FC6F3244631320058BB5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		383FC6F5244666920058BB5D /* homeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeController.swift; sourceTree = "<group>"; };
 		384209B32442613C00035EC9 /* velocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = velocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384209B62442613C00035EC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		384209B82442613C00035EC9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,7 +58,6 @@
 				8121BD30A6ECBCD48A452294 /* Pods-velocity.debug.xcconfig */,
 				B00A8F9698C174DBD3FA0DF5 /* Pods-velocity.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -132,6 +133,7 @@
 			children = (
 				384573EA2443D7FD00D9C3CC /* loginController.swift */,
 				384573EC2443D8A000D9C3CC /* signUpController.swift */,
+				383FC6F5244666920058BB5D /* homeController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -265,6 +267,7 @@
 				384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */,
 				384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */,
 				384209D224426B5A00035EC9 /* Extensions.swift in Sources */,
+				383FC6F6244666920058BB5D /* homeController.swift in Sources */,
 				384573EF2444173100D9C3CC /* authButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

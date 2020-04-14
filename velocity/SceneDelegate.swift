@@ -25,9 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let winScene = (scene as? UIWindowScene) else { return }
            window = UIWindow(windowScene: winScene)
             window?.makeKeyAndVisible()
-        window?.rootViewController =  UINavigationController(rootViewController:loginController())
+        window?.rootViewController =  UINavigationController(rootViewController:homeController())
          
-        FirebaseApp.configure()
+     
         
         
     }
