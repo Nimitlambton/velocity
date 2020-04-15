@@ -192,7 +192,7 @@ class signUpController : UIViewController{
             Database.database().reference().child(uid).updateChildValues(value) { (Error , ref) in
                
                 
-                let controller = loginController()
+    
                 
                 self.navigationController?.popViewController(animated: true)
              

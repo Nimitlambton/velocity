@@ -118,8 +118,13 @@ class loginController: UIViewController {
                print(error)
             return
             }
-           
-            self.navigationController?.popToRootViewController(animated: true)
+            
+            
+             
+            
+            
+            
+  self.navigationController?.popToRootViewController(animated: true)
         }
         
       
