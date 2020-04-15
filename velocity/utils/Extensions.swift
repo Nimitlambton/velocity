@@ -110,10 +110,33 @@ extension UIView{
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
-    func centerY(inView view :UIView) {
+    func centerY(inView view :UIView ,leftAnchor :NSLayoutXAxisAnchor? = nil , paddingLeft :CGFloat = 0 ) {
           
           centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        if let  left = leftAnchor{
+            myanchor(left :leftAnchor , paddingLeft:paddingLeft )
+        }
       }
+    
+    func setDimensions(height:CGFloat ,width :CGFloat){
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+        widthAnchor.constraint(equalToConstant: width).isActive = true
+     
+        
+       
+    }
+    
+    func addshadow(){
+               
+               layer.shadowColor =  .init(srgbRed: 15, green: 0, blue: 0, alpha:1)
+                  layer.shadowOpacity = 0.50
+                  layer.shadowOffset = CGSize(width: 10, height: 10)
+                  layer.masksToBounds = false
+               
+           }
     
 }
 extension UITextField{

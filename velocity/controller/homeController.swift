@@ -10,12 +10,21 @@ import UIKit
 import Firebase
 import MapKit
 class homeController: UIViewController {
-
+    //MARK:- PROPERTIES
      private let mapView = MKMapView()
     private let  locationManager = CLLocationManager()
+   
+    private let inputActivationView = LocationInputActiviationView()
+    private let locationinputView = LocationInputView()
+    
+    
+    
+    //MARK: - LIFECYCLE
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-     // signOut()
+      //  signOut()
         configureUI()
         configureNavigation()
         checkIFUSerLoggesIn()
@@ -64,6 +73,7 @@ class homeController: UIViewController {
         
         func configureNavigation(){
                  navigationController?.navigationBar.isHidden = true
+            
              }
     
     
@@ -73,8 +83,18 @@ class homeController: UIViewController {
        
    
        func configureUI(){
-           
-         configuremap()
+        configuremap()
+        
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+        inputActivationView.myanchor(top:view.safeAreaLayoutGuide.topAnchor, paddingTop: 80)
+        inputActivationView.alpha = 0
+        inputActivationView.delegate = self
+        UIView.animate(withDuration: 3) {
+            self.inputActivationView.alpha = 1
+        }
+         
        }
        
     
@@ -87,6 +107,20 @@ class homeController: UIViewController {
         
         
     }
+    
+    func configureLocationInputView(){
+        
+        view.addSubview(locationinputView)
+        locationinputView.myanchor(top:view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, height:200 )
+        locationinputView.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+            self.locationinputView.alpha = 1        }) { _ in
+         print("hello")
+        }
+        
+    }
+    
+    
 
 
 }
@@ -94,7 +128,7 @@ class homeController: UIViewController {
 
     
 
-  
+  //MARK: -LOCATION SERVICES
 extension homeController :CLLocationManagerDelegate{
     
     
@@ -134,5 +168,17 @@ extension homeController :CLLocationManagerDelegate{
             
         }
     }
+    
+}
+
+extension homeController : LocationInputActivationDelegate{
+    func presentLocationInputView() {
+        inputActivationView.alpha = 0
+        configureLocationInputView()
+      
+    }
+    
+    
+    
     
 }

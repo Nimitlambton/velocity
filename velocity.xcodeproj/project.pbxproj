@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		383FC6F4244631320058BB5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 383FC6F3244631320058BB5D /* GoogleService-Info.plist */; };
 		383FC6F6244666920058BB5D /* homeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383FC6F5244666920058BB5D /* homeController.swift */; };
+		383FC6F82446A4240058BB5D /* locationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383FC6F72446A4240058BB5D /* locationInputActivationView.swift */; };
+		383FC6FA2447B4B00058BB5D /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383FC6F92447B4B00058BB5D /* LocationInputView.swift */; };
 		384209B72442613C00035EC9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384209B62442613C00035EC9 /* AppDelegate.swift */; };
 		384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384209B82442613C00035EC9 /* SceneDelegate.swift */; };
 		384209BE2442613C00035EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 384209BC2442613C00035EC9 /* Main.storyboard */; };
@@ -24,6 +26,8 @@
 /* Begin PBXFileReference section */
 		383FC6F3244631320058BB5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		383FC6F5244666920058BB5D /* homeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeController.swift; sourceTree = "<group>"; };
+		383FC6F72446A4240058BB5D /* locationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationInputActivationView.swift; sourceTree = "<group>"; };
+		383FC6F92447B4B00058BB5D /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
 		384209B32442613C00035EC9 /* velocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = velocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		384209B62442613C00035EC9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		384209B82442613C00035EC9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				384573EE2444173100D9C3CC /* authButton.swift */,
+				383FC6F72446A4240058BB5D /* locationInputActivationView.swift */,
+				383FC6F92447B4B00058BB5D /* LocationInputView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -265,9 +271,11 @@
 				384209B72442613C00035EC9 /* AppDelegate.swift in Sources */,
 				384573EB2443D7FD00D9C3CC /* loginController.swift in Sources */,
 				384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */,
+				383FC6FA2447B4B00058BB5D /* LocationInputView.swift in Sources */,
 				384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */,
 				384209D224426B5A00035EC9 /* Extensions.swift in Sources */,
 				383FC6F6244666920058BB5D /* homeController.swift in Sources */,
+				383FC6F82446A4240058BB5D /* locationInputActivationView.swift in Sources */,
 				384573EF2444173100D9C3CC /* authButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
