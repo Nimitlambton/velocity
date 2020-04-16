@@ -9,11 +9,14 @@
 import Foundation
 import  UIKit
 import  Firebase
+import GeoFire
 class signUpController : UIViewController{
      
     
     //MARK: - properties
     //MARK: - all properties
+    private var location = locationHandler.shared.locationManager.location
+    
       private let titleLabel: UILabel = {
          let label = UILabel()
           label.text = "Velocity"
@@ -126,6 +129,15 @@ class signUpController : UIViewController{
         
         view.backgroundColor  = .red
         configureUi()
+    
+        let sharedLocationManger = locationHandler.shared.locationManager
+       
+        print(sharedLocationManger.location)
+        
+        
+        
+        
+    
     }
     
      //MARK: - Selectors
@@ -166,8 +178,11 @@ class signUpController : UIViewController{
         navigationController?.popViewController(animated: true)
         
     }
-    
+ 
     @objc func handelSignup(){
+        
+        
+        
         guard let email = emailTextField.text else {return}
         guard let password  = passwordTextField.text else {return}
         guard let fullname  = fullNameTextField.text else {return}
@@ -184,27 +199,66 @@ class signUpController : UIViewController{
             
             guard let uid = result?.user.uid else {return}
             
-            let value = ["email:": email ,
-                         "fullname":fullname,
-                           "accountType":accountIndex ] as [String: Any]
+                let value = ["email:": email ,
+                                "fullname":fullname,
+                                  "accountType":accountIndex ] as [String: Any]
             
-            Database.database().reference().child("users").child(uid).updateChildValues(value) { (Error , ref) in
-               
+            
+            if accountIndex == 1 {
+                               
+            var geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+            guard let location = self.location else {return }
+          geofire.setLocation(location, forKey:  uid) { (Error) in
+            
+        self.uploadUserDataAndDismiss(uid: uid, values: value)
+                                          
                 
-    
-                
-                self.navigationController?.popViewController(animated: true)
-             
-                
-            }
+                }
+                           }
+            
+            
+            
+            
+            
+            //self.uploadUserDataAndDismiss(uid: uid, values: value)
+        
+            
+}
+        
+
+     
+        
+        
         }
         
-           
+          
+    
+    
+    //MARK: - HELPER FUNCTIONS
+     
+     func uploadUserDataAndDismiss(uid:String , values:[String:Any]) {
+          REF_USERS.child(uid).updateChildValues(values) { (Error , ref) in
+          self.navigationController?.popViewController(animated: true)
+                              
+                                      }
+   
+      }
+     
+    
+    
+    
+    
+    
+    
+    
        }
 
     
     
     
     
+ 
     
-}
+    
+    
+

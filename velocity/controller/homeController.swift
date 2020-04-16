@@ -13,8 +13,7 @@ private let reuseIdentifier = "LocationCell"
 class homeController: UIViewController {
     //MARK:- PROPERTIES
      private let mapView = MKMapView()
-    private let  locationManager = CLLocationManager()
-   
+    private let  locationManager = locationHandler.shared.locationManager
     private let inputActivationView = LocationInputActiviationView()
     private let locationinputView = LocationInputView()
     private final let locationInputViewHeight : CGFloat = 200
@@ -35,7 +34,7 @@ class homeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //signOut()
+        signOut()
         configureUI()
         configureNavigation()
         checkIFUSerLoggesIn()
@@ -181,16 +180,10 @@ class homeController: UIViewController {
     
 
   //MARK: -LOCATION SERVICES
-extension homeController :CLLocationManagerDelegate{
-    
-    
-    
-    
-    
+extension homeController {
+   
     func enablelocation(){
-        
-        locationManager.delegate = self
-      
+       
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
        print("notDetermined")
@@ -214,12 +207,6 @@ extension homeController :CLLocationManagerDelegate{
     }
  
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status  == .authorizedWhenInUse{
-            locationManager.requestWhenInUseAuthorization()
-            
-        }
-    }
     
 }
 

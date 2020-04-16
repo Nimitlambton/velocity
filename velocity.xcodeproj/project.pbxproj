@@ -19,6 +19,7 @@
 		384209D224426B5A00035EC9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384209D124426B5A00035EC9 /* Extensions.swift */; };
 		3842C48C2448996E002F7905 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3842C48B2448996E002F7905 /* Service.swift */; };
 		3842C48E2448B91C002F7905 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3842C48D2448B91C002F7905 /* User.swift */; };
+		3842C49024490BD1002F7905 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3842C48F24490BD1002F7905 /* LocationHandler.swift */; };
 		384573EB2443D7FD00D9C3CC /* loginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EA2443D7FD00D9C3CC /* loginController.swift */; };
 		384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EC2443D8A000D9C3CC /* signUpController.swift */; };
 		384573EF2444173100D9C3CC /* authButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EE2444173100D9C3CC /* authButton.swift */; };
@@ -41,6 +42,7 @@
 		384209D124426B5A00035EC9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3842C48B2448996E002F7905 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		3842C48D2448B91C002F7905 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3842C48F24490BD1002F7905 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		384573EA2443D7FD00D9C3CC /* loginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = loginController.swift; path = ../services/loginController.swift; sourceTree = "<group>"; };
 		384573EC2443D8A000D9C3CC /* signUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signUpController.swift; sourceTree = "<group>"; };
 		384573EE2444173100D9C3CC /* authButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authButton.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				384209D124426B5A00035EC9 /* Extensions.swift */,
+				3842C48F24490BD1002F7905 /* LocationHandler.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */,
 				384209D224426B5A00035EC9 /* Extensions.swift in Sources */,
 				386651922447E51800445056 /* LocationCell.swift in Sources */,
+				3842C49024490BD1002F7905 /* LocationHandler.swift in Sources */,
 				383FC6F6244666920058BB5D /* homeController.swift in Sources */,
 				3842C48E2448B91C002F7905 /* User.swift in Sources */,
 				3842C48C2448996E002F7905 /* Service.swift in Sources */,
