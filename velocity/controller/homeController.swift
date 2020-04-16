@@ -21,11 +21,11 @@ class homeController: UIViewController {
     
     private let tabelView = UITableView()
 
-    private var fullname : String = ""{
+    private var u : User? {
         
         didSet{
             
-            locationinputView.titleLabel.text = fullname
+            locationinputView.user = u
             
         }
     }
@@ -41,7 +41,7 @@ class homeController: UIViewController {
         checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
-         fetchUserData()
+        fetchUserData()
         
         
     }
@@ -51,11 +51,10 @@ class homeController: UIViewController {
     //MARK: -API
     
     func fetchUserData(){
-       
-
     
-        Service.shared.fetchUserData { abc in
-            self.fullname = abc
+        Service.shared.fetchUserData { user in
+            
+            self.u = user
         }
 }
     

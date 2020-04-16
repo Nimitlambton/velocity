@@ -21,11 +21,15 @@ class LocationInputView: UIView {
     //MARK: - Properties
     weak var delegate : LocationInputViewDelegate?
     
-//    var user :User? {
-//    
-//        didSet {titleLabel.text = user?.fullname}
-//    
-//    }
+
+    var user: User?{
+        didSet {
+            
+            titleLabel.text = user?.fullname
+            
+        }
+        
+    }
     
     
     
@@ -39,7 +43,7 @@ class LocationInputView: UIView {
     }()
     
     
-    var titleLabel: UILabel = {
+   private var titleLabel: UILabel = {
        let label = UILabel()
         label.font = UIFont(name: "ChalkboardSE-Bold", size: 20)
         label.textColor = .black

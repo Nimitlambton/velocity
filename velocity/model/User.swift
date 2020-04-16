@@ -6,8 +6,6 @@
 //  Copyright © 2020 Nimit. All rights reserved.
 //
 
-import Foundation
-import UIKit
 
 struct User {
     let fullname: String
@@ -17,8 +15,8 @@ struct User {
     //casting data into dictionary
     init(dictionary : [String:Any]) {
         self.fullname = dictionary["fullname"] as? String ?? "madarchod"
-        self.email = dictionary["email"] as? String ?? "madarchod"
-        self.accountType = dictionary["accountType"] as? Int ?? 0
+        self.email = dictionary["email:"] as? String ?? "madarchod"
+        self.accountType = dictionary["accountType"] as? Int ?? 1234
     }
     
 }
