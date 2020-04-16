@@ -13,6 +13,8 @@ protocol LocationInputActivationDelegate : class {
     
     func presentLocationInputView()
 }
+
+
 class LocationInputActiviationView: UIView {
 
     
@@ -59,6 +61,8 @@ class LocationInputActiviationView: UIView {
         PlaceholderLabel.centerY(inView: self, leftAnchor: indicatorView.leftAnchor ,paddingLeft: 20)
      
         
+        
+        //tap gesture to recognize that search based has been tapped
         let tap = UITapGestureRecognizer(target :self , action: #selector(presentLocationInputView))
         
        addGestureRecognizer(tap)

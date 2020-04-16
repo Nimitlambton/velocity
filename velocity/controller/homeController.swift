@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import MapKit
+private let reuseIdentifier = "LocationCell"
 class homeController: UIViewController {
     //MARK:- PROPERTIES
      private let mapView = MKMapView()
@@ -16,7 +17,9 @@ class homeController: UIViewController {
    
     private let inputActivationView = LocationInputActiviationView()
     private let locationinputView = LocationInputView()
+    private final let locationInputViewHeight : CGFloat = 200
     
+    private let tabelView = UITableView()
     
     
     //MARK: - LIFECYCLE
@@ -84,7 +87,7 @@ class homeController: UIViewController {
    
        func configureUI(){
         configuremap()
-        
+        //configure Activation view 
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
@@ -108,8 +111,13 @@ class homeController: UIViewController {
         
     }
     
+    
+    
+    //loctionInputview
     func configureLocationInputView(){
-        
+        //calling dismiss delegate from locationInputView
+        locationinputView.delegate = self
+      
         view.addSubview(locationinputView)
         locationinputView.myanchor(top:view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, height:200 )
         locationinputView.alpha = 0
@@ -121,9 +129,24 @@ class homeController: UIViewController {
     }
     
     
-
-
-}
+    func configureTableView(){
+        
+        tabelView.delegate = self
+        tabelView.dataSource = self
+        tabelView.register(LocationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tabelView.rowHeight = 60
+        
+       let height = view.frame.height - locationInputViewHeight
+        tabelView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width, height: height)
+        tabelView.backgroundColor = .red
+        view.addSubview(tabelView)
+        
+    
+    }
+    
+    
+    
+    }
 
 
     
@@ -171,14 +194,49 @@ extension homeController :CLLocationManagerDelegate{
     
 }
 
+//MARK: - extension homeController : LocationInputActivationDelegate
 extension homeController : LocationInputActivationDelegate{
     func presentLocationInputView() {
         inputActivationView.alpha = 0
         configureLocationInputView()
+        configureTableView()
       
     }
-    
-    
-    
-    
 }
+
+
+//MARK: - extension homeController : LocationInputViewDelegate
+extension homeController : LocationInputViewDelegate{
+    func DismissInputview() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.locationinputView.alpha = 0
+        }) {_ in
+            
+            self.inputActivationView.alpha = 1
+        }
+    }
+    
+
+}
+
+
+//MARK: - TableView Extension
+   
+extension homeController : UITableViewDelegate ,UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier , for: indexPath) as! LocationCell
+       
+        return cell
+    }
+    
+       
+       
+       
+       
+   }

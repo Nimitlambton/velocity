@@ -20,6 +20,7 @@
 		384573EB2443D7FD00D9C3CC /* loginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EA2443D7FD00D9C3CC /* loginController.swift */; };
 		384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EC2443D8A000D9C3CC /* signUpController.swift */; };
 		384573EF2444173100D9C3CC /* authButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EE2444173100D9C3CC /* authButton.swift */; };
+		386651922447E51800445056 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386651912447E51800445056 /* LocationCell.swift */; };
 		8746E5DE7C93FD466C11E154 /* Pods_velocity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D776C98D84D5DAB81483BD24 /* Pods_velocity.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		384573EA2443D7FD00D9C3CC /* loginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = loginController.swift; path = ../services/loginController.swift; sourceTree = "<group>"; };
 		384573EC2443D8A000D9C3CC /* signUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signUpController.swift; sourceTree = "<group>"; };
 		384573EE2444173100D9C3CC /* authButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authButton.swift; sourceTree = "<group>"; };
+		386651912447E51800445056 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		8121BD30A6ECBCD48A452294 /* Pods-velocity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-velocity.debug.xcconfig"; path = "Target Support Files/Pods-velocity/Pods-velocity.debug.xcconfig"; sourceTree = "<group>"; };
 		B00A8F9698C174DBD3FA0DF5 /* Pods-velocity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-velocity.release.xcconfig"; path = "Target Support Files/Pods-velocity/Pods-velocity.release.xcconfig"; sourceTree = "<group>"; };
 		D776C98D84D5DAB81483BD24 /* Pods_velocity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_velocity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 				384573EE2444173100D9C3CC /* authButton.swift */,
 				383FC6F72446A4240058BB5D /* locationInputActivationView.swift */,
 				383FC6F92447B4B00058BB5D /* LocationInputView.swift */,
+				386651912447E51800445056 /* LocationCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				383FC6FA2447B4B00058BB5D /* LocationInputView.swift in Sources */,
 				384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */,
 				384209D224426B5A00035EC9 /* Extensions.swift in Sources */,
+				386651922447E51800445056 /* LocationCell.swift in Sources */,
 				383FC6F6244666920058BB5D /* homeController.swift in Sources */,
 				383FC6F82446A4240058BB5D /* locationInputActivationView.swift in Sources */,
 				384573EF2444173100D9C3CC /* authButton.swift in Sources */,
