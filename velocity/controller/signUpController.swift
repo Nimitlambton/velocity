@@ -185,11 +185,10 @@ class signUpController : UIViewController{
             guard let uid = result?.user.uid else {return}
             
             let value = ["email:": email ,
-                        
                          "fullname":fullname,
                            "accountType":accountIndex ] as [String: Any]
             
-            Database.database().reference().child(uid).updateChildValues(value) { (Error , ref) in
+            Database.database().reference().child("users").child(uid).updateChildValues(value) { (Error , ref) in
                
                 
     

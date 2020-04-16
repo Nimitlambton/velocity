@@ -20,19 +20,28 @@ class homeController: UIViewController {
     private final let locationInputViewHeight : CGFloat = 200
     
     private let tabelView = UITableView()
-    
+
+    private var fullname : String = ""{
+        
+        didSet{
+            
+            locationinputView.titleLabel.text = fullname
+            
+        }
+    }
     
     //MARK: - LIFECYCLE
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  signOut()
+        //signOut()
         configureUI()
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
+         fetchUserData()
         
         
     }
@@ -40,6 +49,18 @@ class homeController: UIViewController {
     
     
     //MARK: -API
+    
+    func fetchUserData(){
+       
+
+    
+        Service.shared.fetchUserData { abc in
+            self.fullname = abc
+        }
+}
+    
+    
+    
     
     func  checkIFUSerLoggesIn()  {
         
@@ -113,7 +134,8 @@ class homeController: UIViewController {
     
     
     
-    //loctionInputview
+   
+    
     func configureLocationInputView(){
         //calling dismiss delegate from locationInputView
         locationinputView.delegate = self
@@ -123,7 +145,13 @@ class homeController: UIViewController {
         locationinputView.alpha = 0
         UIView.animate(withDuration: 0.5, animations: {
             self.locationinputView.alpha = 1        }) { _ in
-         print("hello")
+        
+                UIView.animate(withDuration: 0.5) {
+                     self.tabelView.frame.origin.y = self.locationInputViewHeight
+                }
+                
+               
+                
         }
         
     }
@@ -135,6 +163,8 @@ class homeController: UIViewController {
         tabelView.dataSource = self
         tabelView.register(LocationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tabelView.rowHeight = 60
+        
+        tabelView.tableFooterView = UIView()
         
        let height = view.frame.height - locationInputViewHeight
         tabelView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width, height: height)
@@ -208,8 +238,12 @@ extension homeController : LocationInputActivationDelegate{
 //MARK: - extension homeController : LocationInputViewDelegate
 extension homeController : LocationInputViewDelegate{
     func DismissInputview() {
+        
+        
+        locationinputView.removeFromSuperview()
         UIView.animate(withDuration: 0.3, animations: {
             self.locationinputView.alpha = 0
+            self.tabelView.frame.origin.y = self.view.frame.height
         }) {_ in
             
             self.inputActivationView.alpha = 1
@@ -223,8 +257,22 @@ extension homeController : LocationInputViewDelegate{
 //MARK: - TableView Extension
    
 extension homeController : UITableViewDelegate ,UITableViewDataSource{
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "testing"
+    }
+    
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+           return 1
+       }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if section == 0{
+            return 2
+        }
+        
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -234,6 +282,8 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
        
         return cell
     }
+    
+   
     
        
        
