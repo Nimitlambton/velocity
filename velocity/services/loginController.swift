@@ -79,13 +79,7 @@ class loginController: UIViewController {
             return view
             
         }()
-    
-    
-   
-   
-   
-    
-    
+
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -98,43 +92,27 @@ class loginController: UIViewController {
     //MARK:- Selector
     
     @objc func handelSingup(){
-        
-  
-       let controller = signUpController()
-        
-        navigationController?.pushViewController(controller, animated: true)
-        
-    }
+ let controller = signUpController()
+ navigationController?.pushViewController(controller, animated: true)
+}
+    
     
     @objc func handelLogin(){
         
         guard let email = emailTextField.text else {return}
         guard let password  = passwordTextField.text else {return}
-        
         Auth.auth().signIn(withEmail: email, password: password) { (Result, error) in
-           
+        
             if let error = error{
-                
-               print(error)
-            return
-            }
-            
-            
-             
-            
-            
-            
-  self.navigationController?.popToRootViewController(animated: true)
+            print(error)
+            return}
+         self.navigationController?.popToRootViewController(animated: true)
+
         }
-        
-      
-        
     }
     
     
     func configureUi(){
-        
-        
         view.backgroundColor = .orange
            
            configureNavigation()
@@ -152,18 +130,19 @@ class loginController: UIViewController {
            view.addSubview(stack)
            stack.myanchor(top:titleLabel.bottomAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14)
            
+        //bottom line  of view
+        
            view.addSubview(dontHaveAccountButoon)
            dontHaveAccountButoon.myanchor(left: view.leftAnchor, bottom:view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14, height: 50)
-        
-        
     }
+    
+    
+    
     
     
     func configureNavigation(){
         navigationController?.navigationBar.isHidden = true
     }
 
-    
-   
     
 }

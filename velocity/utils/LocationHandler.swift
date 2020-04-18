@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreLocation
+
+//centalizing locations 
 class locationHandler: NSObject , CLLocationManagerDelegate {
     
     
@@ -20,20 +22,15 @@ class locationHandler: NSObject , CLLocationManagerDelegate {
     
     override init() {
         super.init()
-    
         locationManager = CLLocationManager()
-    
         locationManager.delegate = self
-    
-   
-    
     }
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status  == .authorizedWhenInUse{
-            locationManager.requestWhenInUseAuthorization()
-            
+        locationManager.requestWhenInUseAuthorization()
+
         }
     }
     

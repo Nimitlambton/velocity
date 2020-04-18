@@ -13,6 +13,7 @@ import UIKit
 extension UIView{
     
     
+    //container for UIimage and textfield
     
     func myContainers(img:UIImage , text: UITextField? = nil , segmentedControl : UISegmentedControl? = nil) -> UIView {
    
@@ -23,8 +24,6 @@ extension UIView{
                 imageview.alpha = 0.87
                 view.addSubview(imageview)
               
-        
-        
         
         if let text = text{
             imageview.centerY(inView: view)
@@ -60,9 +59,8 @@ extension UIView{
     }
     
     
-    
-   
-    
+    //to give contrain in all app
+
        func myanchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
                 bottom: NSLayoutYAxisAnchor? = nil,
@@ -128,6 +126,10 @@ extension UIView{
         
        
     }
+    
+    
+    
+    //shadow effect
     
     func addshadow(){
                

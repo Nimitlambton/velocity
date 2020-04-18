@@ -43,7 +43,8 @@ class LocationCell: UITableViewCell {
         let stack = UIStackView(arrangedSubviews: [titleLabel,addressLabel])
         stack.distribution = .fillEqually
         stack.spacing =  4
-        
+       
+        //stack for cell 
         addSubview(stack)
         stack.centerY(inView: self , leftAnchor:leftAnchor , paddingLeft:12)
         

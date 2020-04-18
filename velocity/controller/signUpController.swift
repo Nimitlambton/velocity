@@ -15,7 +15,11 @@ class signUpController : UIViewController{
     
     //MARK: - properties
     //MARK: - all properties
+    
+    //takes location on signup
     private var location = locationHandler.shared.locationManager.location
+    
+    
     
       private let titleLabel: UILabel = {
          let label = UILabel()
@@ -26,6 +30,7 @@ class signUpController : UIViewController{
           return label
           
       }()
+    
     
      let emailTextField : UITextField = {
                       
@@ -126,29 +131,17 @@ class signUpController : UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor  = .red
         configureUi()
-    
-        let sharedLocationManger = locationHandler.shared.locationManager
-       
-        print(sharedLocationManger.location)
-        
-        
-        
-        
-    
     }
     
      //MARK: - Selectors
     
-    func configureUi(){
-          
-          
-          view.backgroundColor = .orange
-             
-             configureNavigation()
+       func configureUi(){
+         view.backgroundColor = .orange
+         configureNavigation()
            
+        
         view.addSubview(titleLabel)
              titleLabel.myanchor(top: view.safeAreaLayoutGuide.topAnchor)
              titleLabel.centerX(inView: view)
@@ -156,21 +149,21 @@ class signUpController : UIViewController{
 
              //stackview for email and password textfield
              let stack = UIStackView(arrangedSubviews:      [fullname,emailcontainerView,passwordContainerView , accountTypeContainerView,loginButton])
-             stack.axis = .vertical
-             stack.distribution = .fillEqually
-             stack.spacing = 30
+                 stack.axis = .vertical
+                 stack.distribution = .fillEqually
+                 stack.spacing = 30
 
              view.addSubview(stack)
-             stack.myanchor(top:titleLabel.bottomAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14)
+             stack.myanchor(top:titleLabel.bottomAnchor, left: view.leftAnchor,right:view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14)
            
-        view.addSubview(alreadyHaveAccountButoon)
-          alreadyHaveAccountButoon.myanchor(left: view.leftAnchor, bottom:view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14, height: 50)
+           view.addSubview(alreadyHaveAccountButoon)
+            alreadyHaveAccountButoon.myanchor(left: view.leftAnchor, bottom:view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor, paddingTop: 40 , paddingLeft: 16, paddingRight: 14, height: 50)
        
       }
     
-    func configureNavigation(){
+     func configureNavigation(){
           navigationController?.navigationBar.isHidden = true
-      }
+          }
 
     
     @objc func handelShowLogin(){
@@ -180,15 +173,12 @@ class signUpController : UIViewController{
     }
  
     @objc func handelSignup(){
-        
-        
-        
+
         guard let email = emailTextField.text else {return}
         guard let password  = passwordTextField.text else {return}
         guard let fullname  = fullNameTextField.text else {return}
         let accountIndex  = AcountTypeSementedControl.selectedSegmentIndex
 
-        
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             
             if let error = error{
@@ -196,62 +186,36 @@ class signUpController : UIViewController{
                 print(error)
                 return
             }
-            
             guard let uid = result?.user.uid else {return}
             
                 let value = ["email:": email ,
                                 "fullname":fullname,
                                   "accountType":accountIndex ] as [String: Any]
-            
-            
-            if accountIndex == 1 {
-                               
-            var geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
-            guard let location = self.location else {return }
-          geofire.setLocation(location, forKey:  uid) { (Error) in
-            
-        self.uploadUserDataAndDismiss(uid: uid, values: value)
-                                          
-                
+
+            //if it is driver , store its location as well
+             if accountIndex == 1 {
+             var geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+             guard let location = self.location else {return }
+             geofire.setLocation(location, forKey:  uid) { (Error) in
+             self.uploadUserDataAndDismiss(uid: uid, values: value)
                 }
-                           }
-            
-            
-            
-            
-            
-            //self.uploadUserDataAndDismiss(uid: uid, values: value)
+                }
+
+            self.uploadUserDataAndDismiss(uid: uid, values: value)
         
             
 }
-        
+}
 
-     
-        
-        
-        }
-        
-          
-    
-    
     //MARK: - HELPER FUNCTIONS
      
      func uploadUserDataAndDismiss(uid:String , values:[String:Any]) {
           REF_USERS.child(uid).updateChildValues(values) { (Error , ref) in
           self.navigationController?.popViewController(animated: true)
-                              
-                                      }
-   
-      }
-     
-    
-    
-    
-    
-    
-    
-    
-       }
+        }}
+
+
+}
 
     
     

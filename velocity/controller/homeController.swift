@@ -23,9 +23,7 @@ class homeController: UIViewController {
     private var u : User? {
         
         didSet{
-            
             locationinputView.user = u
-            
         }
     }
     
@@ -34,73 +32,85 @@ class homeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        signOut()
+       // signOut()
         configureUI()
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
         fetchUserData()
-        
-        
+        fetchDrivers()
+    
+    
     }
     
     
     
     //MARK: -API
     
-    func fetchUserData(){
     
-        Service.shared.fetchUserData { user in
+    func fetchDrivers(){
+    
+
+        guard let location123 = locationManager.location else {return}
+        
+        Service.shared.fetchDrivers(location: location123, completion:{(User) in
+        
+            print("debug::\(User.location)")
+    guard let  coordinate = User.location?.coordinate else {return }
+    
             
+let anontation  = DriverAnnotation(uid: User.uid, coordinate: coordinate)
+            
+            
+            self.mapView.addAnnotation(anontation)
+            
+        })
+        
+        
+    }
+//
+    
+    
+    func fetchUserData(){
+        
+        guard  let uid = Auth.auth().currentUser?.uid else {return }
+        Service.shared.fetchUserData(uid: uid) { user in
             self.u = user
         }
 }
-    
-    
-    
+
     
     func  checkIFUSerLoggesIn()  {
         
        
         if Auth.auth().currentUser?.uid == nil {
-  
-                let controller = loginController()
-                  
-                  navigationController?.pushViewController(controller, animated: true)
-            
-        
+        let controller = loginController()
+        navigationController?.pushViewController(controller, animated: true)
         }
         else{
-            
            configureUI()
-            
         }
-        
     }
     
+
     func signOut(){
         do{
-        
             try Auth.auth().signOut()
         }catch let error {
-            
+
             print("error occurs")
-            
+        }
+
         }
         
-            
-        }
-        
-        
+    
+    
+    //to hide navigation bar
         func configureNavigation(){
                  navigationController?.navigationBar.isHidden = true
-            
              }
-    
-    
-    
-    
+
     //MARK: - Helper Functions
        
    
@@ -118,62 +128,46 @@ class homeController: UIViewController {
         }
          
        }
-       
+
     
     func  configuremap(){
-      
         view.addSubview(mapView)
-         mapView.frame = view.frame
+        mapView.frame = view.frame
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
-        
-        
     }
     
+
     
-    
-   
     
     func configureLocationInputView(){
         //calling dismiss delegate from locationInputView
         locationinputView.delegate = self
-      
         view.addSubview(locationinputView)
         locationinputView.myanchor(top:view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, height:200 )
         locationinputView.alpha = 0
+        
         UIView.animate(withDuration: 0.5, animations: {
             self.locationinputView.alpha = 1        }) { _ in
-        
+          
                 UIView.animate(withDuration: 0.5) {
                      self.tabelView.frame.origin.y = self.locationInputViewHeight
-                }
-                
-               
-                
+                     }
         }
-        
     }
     
     
     func configureTableView(){
-        
         tabelView.delegate = self
         tabelView.dataSource = self
         tabelView.register(LocationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tabelView.rowHeight = 60
-        
         tabelView.tableFooterView = UIView()
-        
        let height = view.frame.height - locationInputViewHeight
         tabelView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width, height: height)
         tabelView.backgroundColor = .red
         view.addSubview(tabelView)
-        
-    
     }
-    
-    
-    
     }
 
 
@@ -204,14 +198,12 @@ extension homeController {
             break
         }
         
-    }
- 
-    
-    
+    } 
 }
 
 //MARK: - extension homeController : LocationInputActivationDelegate
 extension homeController : LocationInputActivationDelegate{
+ 
     func presentLocationInputView() {
         inputActivationView.alpha = 0
         configureLocationInputView()
@@ -250,7 +242,7 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
 
     func numberOfSections(in tableView: UITableView) -> Int {
-           return 1
+           return 2
        }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -269,10 +261,5 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
         return cell
     }
     
-   
-    
-       
-       
-       
-       
+
    }

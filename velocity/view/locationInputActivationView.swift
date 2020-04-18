@@ -15,17 +15,14 @@ protocol LocationInputActivationDelegate : class {
 }
 
 
+
 class LocationInputActiviationView: UIView {
 
-    
-    
-    
-    
+
     //MARK: - PROPERTIES
  
     weak var delegate : LocationInputActivationDelegate?
-    
-    
+
     private let indicatorView :UIView = {
         
         let view = UIView()
@@ -33,6 +30,7 @@ class LocationInputActiviationView: UIView {
         return view
         
     }()
+    
     private let PlaceholderLabel: UILabel = {
          let label = UILabel()
     
@@ -44,9 +42,7 @@ class LocationInputActiviationView: UIView {
           
       }()
     
-    
-    
-    
+
     //MARK: - LIFECYCLE
     
     override init(frame: CGRect) {
@@ -56,7 +52,7 @@ class LocationInputActiviationView: UIView {
         indicatorView.centerY(inView: self, leftAnchor: leftAnchor ,paddingLeft: 16)
         indicatorView.setDimensions(height: 6, width: 6)
         
-     addshadow() 
+        addshadow()
         addSubview(PlaceholderLabel)
         PlaceholderLabel.centerY(inView: self, leftAnchor: indicatorView.leftAnchor ,paddingLeft: 20)
      
@@ -64,8 +60,9 @@ class LocationInputActiviationView: UIView {
         
         //tap gesture to recognize that search based has been tapped
         let tap = UITapGestureRecognizer(target :self , action: #selector(presentLocationInputView))
-        
-       addGestureRecognizer(tap)
+         
+        //use of delegates
+        addGestureRecognizer(tap)
         
     }
     
