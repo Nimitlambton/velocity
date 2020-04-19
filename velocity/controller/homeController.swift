@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import MapKit
 private let reuseIdentifier = "LocationCell"
+private let annotationIdentifier  = "DriverAnnotation"
 class homeController: UIViewController {
     //MARK:- PROPERTIES
      private let mapView = MKMapView()
@@ -57,8 +58,11 @@ class homeController: UIViewController {
             
             guard let coordinate = driver.location?.coordinate else {return}
 
-    let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+         let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
                 
+            
+            
+            
             print("nkdsa: \(driver.fullname)" )
             print("nkdsa: \(driver.location)" )
        
@@ -134,7 +138,11 @@ class homeController: UIViewController {
         view.addSubview(mapView)
         mapView.frame = view.frame
         mapView.showsUserLocation = true
+    
         mapView.userTrackingMode = .follow
+    
+        mapView.delegate = self
+    
     }
     
 
@@ -263,4 +271,19 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
 
    }
+
+extension homeController : MKMapViewDelegate{
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    
+        if let annotation = annotation as? DriverAnnotation {
+        let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            view.image = #imageLiteral(resourceName: "chevron-sign-to-right")
+            return view
+        }
+    return nil
+    }
+    
+    
+}
 
