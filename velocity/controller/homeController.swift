@@ -59,14 +59,48 @@ class homeController: UIViewController {
             guard let coordinate = driver.location?.coordinate else {return}
 
          let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+              
+            
+            print("update\(coordinate)")
+            
+            
+            var driverIsVisible : Bool{
                 
+                
+                return self.mapView.annotations.contains { (annotation) -> Bool in
+    
+    guard let driveranon = annotation as? DriverAnnotation else {return false}
+
+      if driveranon.uid == driver.uid {
+                       
+    
+        driveranon.updateAnnotationPosition(withCoordinate: coordinate)
+        
+        
+        
+        return true}
+        return false
+                }
+                
+            }
             
             
             
-            print("nkdsa: \(driver.fullname)" )
-            print("nkdsa: \(driver.location)" )
+            
+            
+            
+          //  print("nkdsa: \(driver.fullname)" )
+            //print("nkdsa: \(driver.location)" )
        
-            self.mapView.addAnnotation(annotation)
+            
+            if !driverIsVisible{
+                
+              self.mapView.addAnnotation(annotation)
+            
+            
+            }
+            
+           
             
         
         }
