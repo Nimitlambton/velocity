@@ -36,34 +36,39 @@ struct Service {
 }
     
     
-        func fetchDrivers (location: CLLocation , completion:@escaping(User) -> Void){
-            let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS )
+    func fetchDrivers (location :CLLocation ,  completion : @escaping (User) -> Void ){
 
-
-  REF_DRIVER_LOCATIONS.observe(.value) { (DataSnapshot) in
-                
-  geofire.query(at: location, withRadius: 50).observe(.keyEntered, with:{ (uid ,location)   in
-                
-                    print("r::\(location)")
-                    print("r::\(uid)")
-               
-
-                    self.fetchUserData(uid: uid) { (User) in
-                    var driver = User
-                    driver.location = location
-                    completion(driver)
+let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+        
+ REF_DRIVER_LOCATIONS.observe(.value) { (DataSnapshot) in
+            
+    geofire.query(at: location, withRadius: 50).observe(.keyEntered, with: {(uid, location) in
+        
+        print("bcbc: \( uid)")
+        print("bcbc:+\(location.coordinate)")
+   
+    
+        self.fetchUserData(uid: uid) { (User) in
+           
+            var driver = User
+            driver.location = location
+            completion(driver)
+            
+            
+            
+        }
+        
+        
     
     
     }
-                    
-                    
-                    
-                    
-                })
-
-            }
-            
-            
+        
+        
+        )}
+        
+        
+        
+    
     }
             
             

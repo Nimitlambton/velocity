@@ -48,26 +48,26 @@ class homeController: UIViewController {
     
     //MARK: -API
     
-    
-    func fetchDrivers(){
-    
 
-        guard let location123 = locationManager.location else {return}
-        
-        Service.shared.fetchDrivers(location: location123, completion:{(User) in
-        
-            print("debug::\(User.location)")
-    guard let  coordinate = User.location?.coordinate else {return }
-    
+    func fetchDrivers(){
+
+        guard let location = locationManager.location else {return}
+        print("nkdsa\(location)")
+        Service.shared.fetchDrivers(location: location) { (driver) in
             
-let anontation  = DriverAnnotation(uid: User.uid, coordinate: coordinate)
+            guard let coordinate = driver.location?.coordinate else {return}
+
+    let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+                
+            print("nkdsa: \(driver.fullname)" )
+            print("nkdsa: \(driver.location)" )
+       
+            self.mapView.addAnnotation(annotation)
             
-            
-            self.mapView.addAnnotation(anontation)
-            
-        })
         
-        
+        }
+
+
     }
 //
     
@@ -116,7 +116,7 @@ let anontation  = DriverAnnotation(uid: User.uid, coordinate: coordinate)
    
        func configureUI(){
         configuremap()
-        //configure Activation view 
+        //configure Activation view
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
@@ -198,7 +198,7 @@ extension homeController {
             break
         }
         
-    } 
+    }
 }
 
 //MARK: - extension homeController : LocationInputActivationDelegate
@@ -263,3 +263,4 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
 
    }
+
