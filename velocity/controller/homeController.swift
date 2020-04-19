@@ -12,13 +12,27 @@ import MapKit
 private let reuseIdentifier = "LocationCell"
 private let annotationIdentifier  = "DriverAnnotation"
 class homeController: UIViewController {
+    
+    func executeSearch(query: String) {
+           
+        searchBy(naturalLanguageQuery: query) { (Placemark) in
+            print("did complete\(Placemark)")
+            self.searchresult = Placemark
+            self.tabelView.reloadData()
+        }
+
+    }
+    
+    
+    
+    
     //MARK:- PROPERTIES
      private let mapView = MKMapView()
     private let  locationManager = locationHandler.shared.locationManager
     private let inputActivationView = LocationInputActiviationView()
     private let locationinputView = LocationInputView()
     private final let locationInputViewHeight : CGFloat = 200
-    
+    private var searchresult = [MKPlacemark]()
     private let tabelView = UITableView()
 
     private var u : User? {
@@ -35,12 +49,12 @@ class homeController: UIViewController {
         super.viewDidLoad()
        // signOut()
         configureUI()
+        configure()
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
-        fetchUserData()
-        fetchDrivers()
+       
     
     
     }
@@ -83,12 +97,7 @@ class homeController: UIViewController {
                 }
                 
             }
-            
-            
-            
-            
-            
-            
+
           //  print("nkdsa: \(driver.fullname)" )
             //print("nkdsa: \(driver.location)" )
        
@@ -127,7 +136,9 @@ class homeController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
         }
         else{
-           configureUI()
+          configure()
+            
+            
         }
     }
     
@@ -151,6 +162,12 @@ class homeController: UIViewController {
 
     //MARK: - Helper Functions
        
+    func configure(){
+        
+        configureUI()
+        fetchUserData()
+               fetchDrivers()
+    }
    
        func configureUI(){
         configuremap()
@@ -257,6 +274,8 @@ extension homeController : LocationInputActivationDelegate{
 
 //MARK: - extension homeController : LocationInputViewDelegate
 extension homeController : LocationInputViewDelegate{
+   
+    
     func DismissInputview() {
         
         
@@ -292,7 +311,7 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
             return 2
         }
         
-        return 5
+        return  searchresult.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -321,3 +340,44 @@ extension homeController : MKMapViewDelegate{
     
 }
 
+
+
+private extension homeController {
+        
+      
+        
+        
+               func searchBy(naturalLanguageQuery : String , completion : @escaping([MKPlacemark]) ->Void){
+                   
+                   var result = [MKPlacemark]()
+                
+                
+                let request = MKLocalSearch.Request()
+                
+                request.region = mapView.region
+                request.naturalLanguageQuery = naturalLanguageQuery
+                
+                let search = MKLocalSearch(request: request)
+            
+                search.start { (Response , Error) in
+                    
+                    guard let response = Response else {return}
+                    
+                    response.mapItems.forEach { (Item) in
+                       // print("de\(Item.phoneNumber)")
+                        result.append(Item.placemark)
+                    }
+                
+                      completion(result)
+                
+                }
+              
+                
+                
+
+                   
+               }
+    
+    
+    
+}

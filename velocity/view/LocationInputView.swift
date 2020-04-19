@@ -11,6 +11,7 @@ import UIKit
 protocol LocationInputViewDelegate : class{
     
     func DismissInputview()
+    func executeSearch(query: String)
     
 }
 
@@ -100,13 +101,18 @@ class LocationInputView: UIView {
            tf.placeholder = "Enter location"
           // tf.backgroundColor = .orange
          
+           tf.delegate  = self
+        
            tf.returnKeyType = .search
            let paddingView = UIView()
              paddingView.setDimensions(height: 30, width: 8)
              tf.leftView = paddingView
              tf.leftViewMode = .always
-        return tf
-      }()
+           return tf
+      
+    
+    
+    }()
 
     
     
@@ -179,3 +185,21 @@ class LocationInputView: UIView {
     }
 
 }
+
+//MARK : UITEXT field delegate
+
+extension LocationInputView : UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        guard let query = textField.text else {return false}
+      
+        delegate?.executeSearch(query: query)
+        
+        return true
+    }
+ 
+}
+
+
+
