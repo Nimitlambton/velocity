@@ -86,7 +86,7 @@ class homeController: UIViewController {
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
-        presentRideActionView(shouldShow: false)
+        animateRideActionView(shouldShow: false)
         view.backgroundColor = .green
         
     }
@@ -107,7 +107,7 @@ class homeController: UIViewController {
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
-                self.presentRideActionView(shouldShow: false)
+                self.animateRideActionView(shouldShow: false)
             }
       
             
@@ -216,11 +216,27 @@ class homeController: UIViewController {
     //MARK: - Helper Functions
     
     
-    func presentRideActionView(shouldShow : Bool){
+    func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil ){
       
-let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight : self.view.frame.height
-UIView.animate(withDuration: 0.3) {
-self.rideActionView.frame.origin.y = yorigin
+let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
+    
+    self.view.frame.height
+
+        if shouldShow{
+            
+            guard let destination = destination else {return}
+       
+           rideActionView.destination = destination
+            
+        
+        }
+        
+        
+        
+        UIView.animate(withDuration: 0.3) {
+            
+         self.rideActionView.frame.origin.y = yorigin
+       
         }
             
             
@@ -475,10 +491,9 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
             self.mapView.selectAnnotation(annotation, animated: true)
             
             let annontations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
- 
         self.mapView.showAnnotations(annontations, animated: true)
-
-            self.presentRideActionView(shouldShow: true)
+            self.animateRideActionView(shouldShow: true,destination:  selectedPlacemark)
+        
         }
         
         

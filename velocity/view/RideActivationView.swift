@@ -7,9 +7,19 @@
 //
 
 import Foundation
- import UIKit
-
+import UIKit
+import MapKit
 class RideActivationView : UIView{
+    
+    var destination :MKPlacemark?{
+        
+        didSet{
+            
+            titleLabel.text = destination?.name
+            addressLabel.text = destination?.address
+        }
+        
+    }
     
  
     //MARK: PROPERTIES
