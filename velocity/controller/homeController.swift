@@ -11,6 +11,19 @@ import Firebase
 import MapKit
 private let reuseIdentifier = "LocationCell"
 private let annotationIdentifier  = "DriverAnnotation"
+
+
+private enum ActionButtonConfiguration{
+    
+    case showMenu
+    case dismissActionView
+    
+    init() {
+        self = .showMenu
+    }
+    
+}
+
 class homeController: UIViewController {
     
     func executeSearch(query: String) {
@@ -35,12 +48,31 @@ class homeController: UIViewController {
     private var searchresult = [MKPlacemark]()
     private let tabelView = UITableView()
 
+    
+     private var actionButtonConfig = ActionButtonConfiguration()
+    
+    
+    
     private var u : User? {
         
         didSet{
+           
             locationinputView.user = u
+        
         }
+    
     }
+    
+   
+    
+    private let actionButton :UIButton = {
+        
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "baseline_menu_black_36dp"), for: .normal)
+        button.addTarget(self, action: #selector(actionButoonPressed), for: .touchUpInside)
+          return button
+    }()
+    
     
     //MARK: - LIFECYCLE
 
@@ -58,6 +90,26 @@ class homeController: UIViewController {
     
     
     }
+    
+    //MARK: SELECTORS
+    @objc func actionButoonPressed(){
+        
+        switch actionButtonConfig {
+        case .showMenu:
+            print("hello1")
+            
+        case .dismissActionView:
+        
+            UIView.animate(withDuration: 0.3) {
+                self.inputActivationView.alpha = 1
+                self.actionButton.setImage(#imageLiteral(resourceName: "baseline_menu_black_36dp"), for: .normal)
+                self.actionButtonConfig = .showMenu
+            }
+            
+        }
+        
+    }
+    
     
     
     
@@ -168,7 +220,7 @@ class homeController: UIViewController {
                          UIView.animate(withDuration: 0.6, animations: {
                            self.locationinputView.alpha = 0
                            self.tabelView.frame.origin.y = self.view.frame.height
-                           self.inputActivationView.alpha = 1
+                          
                          })
         }, completion: comp)
   
@@ -188,7 +240,18 @@ class homeController: UIViewController {
    
        func configureUI(){
         configuremap()
+        
+        //HamBurger menu
+        
+        view.addSubview(actionButton)
+        actionButton.myanchor(top: view.safeAreaLayoutGuide.topAnchor ,  left:view.leftAnchor , paddingTop: 16 , paddingLeft: 16 , width: 30 , height: 30 )
+        
         //configure Activation view
+        
+        
+        
+        
+        
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
@@ -206,9 +269,7 @@ class homeController: UIViewController {
         view.addSubview(mapView)
         mapView.frame = view.frame
         mapView.showsUserLocation = true
-    
         mapView.userTrackingMode = .follow
-    
         mapView.delegate = self
     
     }
@@ -295,7 +356,9 @@ extension homeController : LocationInputViewDelegate{
     
     func DismissInputview() {
         
-       dismissLocationViw()
+        dismissLocationViw {_ in
+             self.inputActivationView.alpha = 1
+        }
       
     }
     
@@ -337,6 +400,10 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+      
+        
+        actionButton.setImage(#imageLiteral(resourceName: "baseline_arrow_back_black_36dp-1"), for: .normal)
+        actionButtonConfig = .dismissActionView
         dismissLocationViw { _ in
             let selectedPlacemark = self.searchresult[indexPath.row]
             print(selectedPlacemark.address)
