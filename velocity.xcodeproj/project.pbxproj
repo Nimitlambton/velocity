@@ -25,6 +25,7 @@
 		384573EF2444173100D9C3CC /* authButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EE2444173100D9C3CC /* authButton.swift */; };
 		384CC4F4244A61F000F1E86B /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CC4F3244A61F000F1E86B /* DriverAnnotation.swift */; };
 		386651922447E51800445056 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386651912447E51800445056 /* LocationCell.swift */; };
+		38C2DC24244E0A03006CD178 /* RideActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C2DC23244E0A03006CD178 /* RideActivationView.swift */; };
 		8746E5DE7C93FD466C11E154 /* Pods_velocity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D776C98D84D5DAB81483BD24 /* Pods_velocity.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		384573EE2444173100D9C3CC /* authButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authButton.swift; sourceTree = "<group>"; };
 		384CC4F3244A61F000F1E86B /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		386651912447E51800445056 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		38C2DC23244E0A03006CD178 /* RideActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideActivationView.swift; sourceTree = "<group>"; };
 		8121BD30A6ECBCD48A452294 /* Pods-velocity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-velocity.debug.xcconfig"; path = "Target Support Files/Pods-velocity/Pods-velocity.debug.xcconfig"; sourceTree = "<group>"; };
 		B00A8F9698C174DBD3FA0DF5 /* Pods-velocity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-velocity.release.xcconfig"; path = "Target Support Files/Pods-velocity/Pods-velocity.release.xcconfig"; sourceTree = "<group>"; };
 		D776C98D84D5DAB81483BD24 /* Pods_velocity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_velocity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 				383FC6F72446A4240058BB5D /* locationInputActivationView.swift */,
 				383FC6F92447B4B00058BB5D /* LocationInputView.swift */,
 				386651912447E51800445056 /* LocationCell.swift */,
+				38C2DC23244E0A03006CD178 /* RideActivationView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			files = (
 				384209B72442613C00035EC9 /* AppDelegate.swift in Sources */,
 				384573EB2443D7FD00D9C3CC /* loginController.swift in Sources */,
+				38C2DC24244E0A03006CD178 /* RideActivationView.swift in Sources */,
 				384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */,
 				383FC6FA2447B4B00058BB5D /* LocationInputView.swift in Sources */,
 				384CC4F4244A61F000F1E86B /* DriverAnnotation.swift in Sources */,

@@ -40,11 +40,13 @@ class homeController: UIViewController {
     
     
     //MARK:- PROPERTIES
-     private let mapView = MKMapView()
+    private let mapView = MKMapView()
     private let  locationManager = locationHandler.shared.locationManager
     private let inputActivationView = LocationInputActiviationView()
     private let locationinputView = LocationInputView()
+    private let rideActionView = RideActivationView()
     private final let locationInputViewHeight : CGFloat = 200
+    private final let rideActionViewHeight : CGFloat = 300
     private var searchresult = [MKPlacemark]()
     private let tabelView = UITableView()
     private var actionButtonConfig = ActionButtonConfiguration()
@@ -84,23 +86,28 @@ class homeController: UIViewController {
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
+        presentRideActionView(shouldShow: false)
         view.backgroundColor = .green
+        
     }
     
     //MARK: SELECTORS
+    
+    
+    
+    
     @objc func actionButoonPressed(){
         
         switch actionButtonConfig {
         case .showMenu:
             print("abc")
-          
-            
         case .dismissActionView:
            removeAnotationAndOverlays()
         mapView.showAnnotations(mapView.annotations, animated: true)
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
+                self.presentRideActionView(shouldShow: false)
             }
       
             
@@ -208,6 +215,25 @@ class homeController: UIViewController {
 
     //MARK: - Helper Functions
     
+    
+    func presentRideActionView(shouldShow : Bool){
+      
+let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight : self.view.frame.height
+UIView.animate(withDuration: 0.3) {
+self.rideActionView.frame.origin.y = yorigin
+        }
+            
+            
+     
+
+        }
+       
+        
+    
+    
+    
+    
+    
     func removeAnotationAndOverlays(){
 
         mapView.annotations.forEach { (annotation) in
@@ -260,7 +286,7 @@ class homeController: UIViewController {
         
         configureUI()
         fetchUserData()
-               fetchDrivers()
+        fetchDrivers()
     }
    
        func configureUI(){
@@ -272,6 +298,9 @@ class homeController: UIViewController {
         actionButton.myanchor(top: view.safeAreaLayoutGuide.topAnchor ,  left:view.leftAnchor , paddingTop: 16 , paddingLeft: 16 , width: 30 , height: 30 )
         
         //configure Activation view
+        
+        
+        configureRiderActionView()
         
         
         
@@ -288,6 +317,12 @@ class homeController: UIViewController {
         }
          
        }
+    
+    func configureRiderActionView(){
+        
+        view.addSubview(rideActionView)
+        rideActionView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width, height: rideActionViewHeight)
+    }
 
     
     func  configuremap(){
@@ -438,28 +473,12 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
             annotation.coordinate = selectedPlacemark.coordinate
             self.mapView.addAnnotation(annotation)
             self.mapView.selectAnnotation(annotation, animated: true)
-        
-        
-//            self.mapView.annotations.forEach { (annotation) in
-//            if let anno = annotation as? MKUserLocation{
-//                ann.append(anno)
-//
-//            }
-//
-//            if let  annon =  annotation as? MKPointAnnotation{
-//                ann.append(annon)
-//            }
-//
-//        }
             
             let annontations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
  
         self.mapView.showAnnotations(annontations, animated: true)
-            
-            
-            
-        
-        
+
+            self.presentRideActionView(shouldShow: true)
         }
         
         
