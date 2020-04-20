@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 
 extension UIView{
@@ -164,3 +165,31 @@ extension UIColor {
       
       
   }
+
+extension MKPlacemark{
+    
+    var address : String?{
+       
+        get{
+//
+           
+        //
+            guard let locality = locality else {return nil}
+            guard let adminArea = administrativeArea else {return nil}
+            guard let  thoroughfare =  thoroughfare else {return "no"}
+           
+          guard let  subthoroughfare =  subThoroughfare else {return "no"}
+           
+            return "\(thoroughfare),\(locality),\(adminArea),\(subthoroughfare)"
+           
+
+        }
+    
+      
+    
+    }
+    
+    
+    
+}
+

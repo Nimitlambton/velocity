@@ -161,7 +161,24 @@ class homeController: UIViewController {
              }
 
     //MARK: - Helper Functions
+    
+    
+    func dismissLocationViw(comp: ((Bool) -> Void)? = nil ){
+        UIView.animate(withDuration: 0.3, animations: {
+                         UIView.animate(withDuration: 0.6, animations: {
+                           self.locationinputView.alpha = 0
+                           self.tabelView.frame.origin.y = self.view.frame.height
+                           self.inputActivationView.alpha = 1
+                         })
+        }, completion: comp)
+  
+        
+    }
        
+    
+    
+    
+    
     func configure(){
         
         configureUI()
@@ -278,15 +295,8 @@ extension homeController : LocationInputViewDelegate{
     
     func DismissInputview() {
         
-        
-        locationinputView.removeFromSuperview()
-        UIView.animate(withDuration: 0.3, animations: {
-            self.locationinputView.alpha = 0
-            self.tabelView.frame.origin.y = self.view.frame.height
-        }) {_ in
-            
-            self.inputActivationView.alpha = 1
-        }
+       dismissLocationViw()
+      
     }
     
 
@@ -318,11 +328,28 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
         
     
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier , for: indexPath) as! LocationCell
-       
+        
+        if indexPath.section == 1{
+        cell.placemark = searchresult[indexPath.row]
+        }
         return cell
     }
     
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismissLocationViw { _ in
+            let selectedPlacemark = self.searchresult[indexPath.row]
+            print(selectedPlacemark.address)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = selectedPlacemark.coordinate
+            self.mapView.addAnnotation(annotation)
+            self.mapView.selectAnnotation(annotation, animated: true)
+        }
+    }
+    
+    
+    
+    
    }
 
 extension homeController : MKMapViewDelegate{
@@ -343,10 +370,7 @@ extension homeController : MKMapViewDelegate{
 
 
 private extension homeController {
-        
-      
-        
-        
+
                func searchBy(naturalLanguageQuery : String , completion : @escaping([MKPlacemark]) ->Void){
                    
                    var result = [MKPlacemark]()
