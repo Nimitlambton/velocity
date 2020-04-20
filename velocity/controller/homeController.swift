@@ -86,9 +86,6 @@ class homeController: UIViewController {
         checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
-       
-    
-    
     }
     
     //MARK: SELECTORS
@@ -96,14 +93,22 @@ class homeController: UIViewController {
         
         switch actionButtonConfig {
         case .showMenu:
-            print("hello1")
+            print("abc")
+          
             
         case .dismissActionView:
-        
+       
+            mapView.annotations.forEach { (annotation) in
+                      if let annon = annotation as? MKPointAnnotation{
+                          
+                          mapView.removeAnnotation(annon)
+                      }
+                  }
+            
+            
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
-                self.actionButton.setImage(#imageLiteral(resourceName: "baseline_menu_black_36dp"), for: .normal)
-                self.actionButtonConfig = .showMenu
+                self.configureActionButton(config: .showMenu)
             }
             
         }
@@ -213,6 +218,22 @@ class homeController: UIViewController {
              }
 
     //MARK: - Helper Functions
+    
+   fileprivate func configureActionButton(config: ActionButtonConfiguration){
+        switch config {
+        case .showMenu:
+            self.actionButton.setImage(#imageLiteral(resourceName: "baseline_menu_black_36dp"), for: .normal)
+            self.actionButtonConfig = .showMenu
+
+        case .dismissActionView:
+        
+            actionButton.setImage(#imageLiteral(resourceName: "baseline_arrow_back_black_36dp-1"), for: .normal)
+                  actionButtonConfig = .dismissActionView
+        
+        }
+        
+        
+    }
     
     
     func dismissLocationViw(comp: ((Bool) -> Void)? = nil ){
@@ -400,10 +421,9 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      
+
+        configureActionButton(config: .dismissActionView)
         
-        actionButton.setImage(#imageLiteral(resourceName: "baseline_arrow_back_black_36dp-1"), for: .normal)
-        actionButtonConfig = .dismissActionView
         dismissLocationViw { _ in
             let selectedPlacemark = self.searchresult[indexPath.row]
             print(selectedPlacemark.address)
