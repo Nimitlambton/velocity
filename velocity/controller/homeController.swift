@@ -47,9 +47,8 @@ class homeController: UIViewController {
     private final let locationInputViewHeight : CGFloat = 200
     private var searchresult = [MKPlacemark]()
     private let tabelView = UITableView()
-
-    
-     private var actionButtonConfig = ActionButtonConfiguration()
+    private var actionButtonConfig = ActionButtonConfiguration()
+    private var route : MKRoute?
     
     
     
@@ -97,19 +96,13 @@ class homeController: UIViewController {
           
             
         case .dismissActionView:
-       
-            mapView.annotations.forEach { (annotation) in
-                      if let annon = annotation as? MKPointAnnotation{
-                          
-                          mapView.removeAnnotation(annon)
-                      }
-                  }
-            
-            
+           removeAnotationAndOverlays()
+        mapView.showAnnotations(mapView.annotations, animated: true)
             UIView.animate(withDuration: 0.3) {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
             }
+      
             
         }
         
@@ -155,10 +148,6 @@ class homeController: UIViewController {
                 
             }
 
-          //  print("nkdsa: \(driver.fullname)" )
-            //print("nkdsa: \(driver.location)" )
-       
-            
             if !driverIsVisible{
                 
               self.mapView.addAnnotation(annotation)
@@ -218,6 +207,21 @@ class homeController: UIViewController {
              }
 
     //MARK: - Helper Functions
+    
+    func removeAnotationAndOverlays(){
+
+        mapView.annotations.forEach { (annotation) in
+                  if let annon = annotation as? MKPointAnnotation{
+                      
+                      mapView.removeAnnotation(annon)
+                  }
+              }
+        
+        if mapView.overlays.count > 0{
+            mapView.removeOverlay(mapView.overlays[0])
+        }
+        
+    }
     
    fileprivate func configureActionButton(config: ActionButtonConfiguration){
         switch config {
@@ -421,17 +425,46 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+       let selectedPlacemark = searchresult[indexPath.row]
+       // var ann = [MKAnnotation]()
         configureActionButton(config: .dismissActionView)
-        
+
         dismissLocationViw { _ in
-            let selectedPlacemark = self.searchresult[indexPath.row]
-            print(selectedPlacemark.address)
+ 
+            let desination = MKMapItem(placemark: selectedPlacemark)
+            self.generatePolyline(toDestination: desination )
+            //print(selectedPlacemark.address)
             let annotation = MKPointAnnotation()
             annotation.coordinate = selectedPlacemark.coordinate
             self.mapView.addAnnotation(annotation)
             self.mapView.selectAnnotation(annotation, animated: true)
+        
+        
+//            self.mapView.annotations.forEach { (annotation) in
+//            if let anno = annotation as? MKUserLocation{
+//                ann.append(anno)
+//
+//            }
+//
+//            if let  annon =  annotation as? MKPointAnnotation{
+//                ann.append(annon)
+//            }
+//
+//        }
+            
+            let annontations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
+ 
+        self.mapView.showAnnotations(annontations, animated: true)
+            
+            
+            
+        
+        
         }
+        
+        
+    
+        
     }
     
     
@@ -439,6 +472,7 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
    }
 
+//MARK: MAPVIEW DELEGATE
 extension homeController : MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -451,10 +485,22 @@ extension homeController : MKMapViewDelegate{
     return nil
     }
     
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let router = self.route {
+           
+            let polyline = route?.polyline
+            let lineRenderer = MKPolylineRenderer(overlay: polyline as! MKOverlay)
+            lineRenderer.strokeColor = .orange
+            lineRenderer.lineWidth = 4
+            return lineRenderer
+        }
+        return MKOverlayRenderer()
+    }
     
 }
 
 
+//MARK: MapView helper functions
 
 private extension homeController {
 
@@ -478,17 +524,24 @@ private extension homeController {
                        // print("de\(Item.phoneNumber)")
                         result.append(Item.placemark)
                     }
-                
                       completion(result)
-                
                 }
-              
-                
-                
-
-                   
                }
     
-    
+    func generatePolyline(toDestination destination :MKMapItem){
+        let request = MKDirections.Request()
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = destination
+        request.transportType = .automobile
+        
+        let directionRequest = MKDirections(request: request)
+        directionRequest.calculate { (Response, Error) in
+            guard let Response = Response else {return }
+            self.route = Response.routes[0]
+            guard let polyline = self.route?.polyline else {return }
+            self.mapView.addOverlay(polyline)
+        }
+        
+    }
     
 }
