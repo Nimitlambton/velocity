@@ -78,15 +78,21 @@ let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
     }
 
 
+    //observing trips wherever added
     
-    func observeTrips(forDriver driver :User){
-        
-        
-        
-        
-        
-        
-        
+    func observeTrips(completion: @escaping(Trip) -> Void){
+        REF_TRIPS.observe(.childAdded){ (DataSnapshot) in
+            
+guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
+            
+    let uid = DataSnapshot.key
+    let trip = Trip(passengerUid: uid , dictionary: dictionary)
+ 
+            print("pid \(trip.destinationCoordinates)")
+
+            completion(trip)
+        }
+
     }
     
     

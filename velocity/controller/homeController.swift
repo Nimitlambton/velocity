@@ -57,22 +57,37 @@ class homeController: UIViewController {
     
     
     private var user : User? {
-        
         didSet{
-           
             locationinputView.user = user
             if user?.accountType == .passanger {
+            print("its passenger")
                 fetchDrivers()
                 configureInputActivationView()
             }else{
+                 
+                Service.shared.observeTrips { (Trip) in
+                    
+               
+                    self.trip = Trip
+                }
                 
-                print("its a trap")
-            }
-        
-        }
     
+            }
+        }
     }
     
+    
+    private var trip : Trip? {
+        
+        didSet{
+            
+            
+             print("mothfaca")
+           
+            
+        }
+        
+    }
    
     
     private let actionButton :UIButton = {
@@ -132,7 +147,18 @@ class homeController: UIViewController {
     
     //MARK: -API
     
+    func observeTripss(){
+    
+       
+        
+        
+        
+    }
 
+    
+    
+    
+    
     func fetchDrivers(){
 
         guard let location = locationManager.location else {return}

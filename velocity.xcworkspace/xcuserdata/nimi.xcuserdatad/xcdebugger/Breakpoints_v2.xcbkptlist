@@ -30,8 +30,8 @@
             filePath = "velocity/controller/homeController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "fetchDrivers()"
             landmarkType = "7">
          </BreakpointContent>
@@ -300,8 +300,8 @@
             filePath = "velocity/controller/homeController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,6 +318,210 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "164"
             endingLineNumber = "164">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "398C6BEC-DC08-40EE-958B-8BF59FAAAFDD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "trip"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18C85AD0-294E-492B-A681-5F425B0FF916"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "trip"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "16A912FD-B6BA-49D1-8C51-1AE46DAF7CD5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "trip"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "trip"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - b54ff36dc5a8f58e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.(trip in _E37DD1467EBA03114AA5E5B7883B2CC0).getter : Swift.Optional&lt;velocity.Trip&gt;"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "302">
+               </Location>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - 8803bbea2a6e0582"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.(trip in _E37DD1467EBA03114AA5E5B7883B2CC0).setter : Swift.Optional&lt;velocity.Trip&gt;"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "663">
+               </Location>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - ea5df28fb0f2d88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.(trip in _E37DD1467EBA03114AA5E5B7883B2CC0).modify : Swift.Optional&lt;velocity.Trip&gt;"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "73">
+               </Location>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - ef20ad21de5eacb0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.(trip in _E37DD1467EBA03114AA5E5B7883B2CC0).modify : Swift.Optional&lt;velocity.Trip&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - fdd2b05aa2e4eaf9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; velocity.homeController"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1448">
+               </Location>
+               <Location
+                  uuid = "96EF66F1-120F-440E-A127-3C99CECDBA31 - b186de4fb9324f43"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "velocity.homeController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;velocity.homeController&gt;"
+                  moduleName = "velocity"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimi/Desktop/Mission%20Milestone/velocity/velocity/controller/homeController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1383">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "75755252-9502-4A14-8E0F-611AF87339AB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "trip"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B55F1215-601D-4903-A9F2-223BDB90407F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "user"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1A8F37B7-93BA-4BCE-9EFA-04ED1FBD7A36"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "velocity/controller/homeController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "user"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
