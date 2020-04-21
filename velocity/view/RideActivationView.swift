@@ -6,40 +6,53 @@
 //  Copyright © 2020 Nimit. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import MapKit
-class RideActivationView : UIView{
-    
-    var destination :MKPlacemark?{
-        
-        didSet{
-            
-            titleLabel.text = destination?.name
-            addressLabel.text = destination?.address
-        }
-        
-    }
-    
+
+
+
+protocol rideActivityDelegate : class {
  
-    //MARK: PROPERTIES
+    func uploadTrip(_ View : RideActivationView )
+}
+
+class RideActivationView: UIView {
+
+    var destination :MKPlacemark?{
+           
+           didSet{
+               
+               titleLabel.text = destination?.name
+               addressLabel.text = destination?.address
+           }
+           
+       }
+    
+    
+    
+    //MARK: - PROPERTIES
+    
+    
+    
+    weak var delegate : rideActivityDelegate?
+    
     
     private let titleLabel: UILabel = {
           let label = UILabel()
-          label.font = UIFont.systemFont(ofSize: 18)
-          label.textAlignment = .center
-         label.text = "helloworl123"
-          return label
-      }()
-      
-      private let addressLabel: UILabel = {
-          let label = UILabel()
-          label.textColor = .lightGray
-        label.text = "helloworl123"
           label.font = UIFont.systemFont(ofSize: 16)
-          label.textAlignment = .center
+          label.text = "helloworl123"
+        label.textAlignment = .center
           return label
       }()
+    
+    private let addressLabel: UILabel = {
+           let label = UILabel()
+           label.textColor = .lightGray
+           label.text = "helloworl123"
+           label.font = UIFont.systemFont(ofSize: 16)
+           label.textAlignment = .center
+           return label
+       }()
     
     private lazy var inforView : UIView = {
         let view = UIView()
@@ -47,75 +60,85 @@ class RideActivationView : UIView{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 30)
         label.textColor = .white
-        label.text = "v"
+        label.text = "x"
         view.addSubview(label)
         label.centerX(inView: view)
         label.centerY(inView: view)
+        
+      
 
         return view
     }()
     
     
+    private let velocityLabel: UILabel = {
+             let label = UILabel()
+           label.text = "Velocity XL"
+             label.font = UIFont.systemFont(ofSize: 18)
+             label.textAlignment = .center
+             return label
+         }()
     
     
-     private let velocityLabel: UILabel = {
-            let label = UILabel()
-          label.text = "Velocity XL"
-            label.font = UIFont.systemFont(ofSize: 18)
-            label.textAlignment = .center
-            return label
-        }()
-    
-    private let actionButoon : UIButton = {
-       
-        let button = UIButton(type: .system)
-        button.backgroundColor = .systemOrange
-        button.setTitle("Get velocity", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button .addTarget(self, action: #selector(actionButonPressed), for: .touchUpInside)
+     private let actionButoon : UIButton = {
         
-        return button
-       
-    }()
+         let button = UIButton(type: .system)
+        button.backgroundColor = .systemOrange
+         button.setTitle("Get velocity", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+       //  button.addTarget(self, action: #selector(actionbuttonPress), for: .touchUpInside)
+         return button
+        
+     }()
     
     
     
     
-       //MARK: LifeCycle
+    
+    
     
     override init(frame: CGRect) {
-        super.init( frame : frame)
+        super.init(frame: frame)
         
         backgroundColor = .white
         addshadow()
         
+        
         let stack = UIStackView(arrangedSubviews: [titleLabel, addressLabel])
-          stack.axis = .vertical
-          stack.spacing = 4
-          stack.distribution = .fillEqually
+        stack.axis = .vertical
+        stack.spacing = 4
+        stack.distribution = .fillEqually
+        
         
         addSubview(stack)
-        stack.centerX(inView: self)
-        stack.myanchor(top: topAnchor, paddingTop: 12)
+               stack.centerX(inView: self)
+               stack.myanchor(top: topAnchor, paddingTop: 12)
+        
+        
         
         addSubview(inforView)
-        inforView.centerX(inView: self)
-        inforView.myanchor(top: stack.bottomAnchor,paddingTop: 16)
-        inforView.setDimensions(height: 60, width: 60)
-        inforView.layer.cornerRadius = 60 / 2
+            inforView.centerX(inView: self)
+            inforView.myanchor(top: stack.bottomAnchor,paddingTop: 16)
+            inforView.setDimensions(height: 60, width: 60)
+            inforView.layer.cornerRadius = 60 / 2
         
         addSubview(velocityLabel)
-        velocityLabel.myanchor(top: inforView.bottomAnchor , paddingTop: 8)
-        velocityLabel.centerX(inView: self)
+           velocityLabel.myanchor(top: inforView.bottomAnchor , paddingTop: 8)
+           velocityLabel.centerX(inView: self)
         
         let separatorView = UIView()
         separatorView.backgroundColor = .systemOrange
         addSubview(separatorView)
         separatorView.myanchor(top:velocityLabel.bottomAnchor ,left: leftAnchor,
-            right: rightAnchor , paddingTop: 4 ,height: 0.75)
+            right: rightAnchor , paddingTop: 8 ,height: 0.75)
+        
         
         addSubview(actionButoon)
-        actionButoon.myanchor(left: leftAnchor , bottom: safeAreaLayoutGuide.bottomAnchor , right: rightAnchor , paddingLeft: 35 , paddingBottom: 12, paddingRight: 35 , height: 50)
+               actionButoon.myanchor(left: leftAnchor , bottom: safeAreaLayoutGuide.bottomAnchor , right: rightAnchor , paddingLeft: 10 , paddingBottom: 12, paddingRight: 10 , height: 50)
+        
+      let tap = UITapGestureRecognizer(target :self , action: #selector(actionbuttonPress))
+        actionButoon.addGestureRecognizer(tap)
+        
         
     }
     
@@ -125,12 +148,16 @@ class RideActivationView : UIView{
     
     
     
-    //MARK:: HELPER FUNCTIONS
+    //MARK: Lifecycle
+
     
-    @objc func  actionButonPressed() {
+    //MARK: SELECTORS
+    
+    
+    @objc func actionbuttonPress(){
         
-        print("helloworl")
+        print("helloworlf")
+        delegate?.uploadTrip(self)
     }
-    
     
 }

@@ -13,8 +13,8 @@ import GeoFire
 
 let DB_REF = Database.database().reference()
 let REF_USERS = DB_REF.child("users")
-
 let REF_DRIVER_LOCATIONS = DB_REF.child("driver-locations")
+let REF_TRIPS = DB_REF.child("trips")
 
 //to fetch userData
 
@@ -71,46 +71,20 @@ let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
     
     }
             
-            
-            
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    func fetchDrivers (location: CLLocation , completion:  @escaping(User) -> Void ){
-//
-//    //when we inialize geo fire we have to give firebase Database refrence
-//
-//        let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS )
-//
-//        REF_DRIVER_LOCATIONS.observe(.value) { (DataSnapshot) in
-//geofire.query(at: location, withRadius: 50).observe(.keyEntered ,
-//                with: { (uid, location) in
-//
-//                print(uid)
-//                print(location.coordinate)
-//
-//                    self.fetchUserData(uid: uid) { (User) in
-//
-//                        var driver = User
-//                        driver.location = location
-//                        completion(User)
-//
-//                    }
-//
-//            })
-//        }
-//
-//    }
 
+    func uploadTrip(_ pickupCoordinates : CLLocationCoordinate2D , _ destinationCoordinates: CLLocationCoordinate2D,  completion: @escaping(Error? ,DatabaseReference) -> Void ){
 
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+       
+        let pickupArray = [pickupCoordinates.latitude , pickupCoordinates.longitude]
+        let destinationArray =  [destinationCoordinates.latitude , destinationCoordinates.longitude ]
+        
+        let values = ["pickupCoordinates":pickupArray ,"destinationCoordinates" : destinationArray ]
+        
+        REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
+        
+       print("r::")
+    }
 
 
 }

@@ -171,18 +171,11 @@ extension MKPlacemark{
     var address : String?{
        
         get{
-//
-           
-        //
             guard let locality = locality else {return nil}
             guard let adminArea = administrativeArea else {return nil}
             guard let  thoroughfare =  thoroughfare else {return "no"}
-           
-          guard let  subthoroughfare =  subThoroughfare else {return "no"}
-           
+            guard let  subthoroughfare =  subThoroughfare else {return "no"}
             return "\(thoroughfare),\(locality),\(adminArea),\(subthoroughfare)"
-           
-
         }
     
       
@@ -193,3 +186,27 @@ extension MKPlacemark{
     
 }
 
+extension MKMapView {
+    
+    func zoomToFit(annotation: [MKAnnotation]){
+        
+        var zoomRect = MKMapRect.null
+        
+        annotation.forEach{(annotation) in
+            
+            
+            let annonationPoint = MKMapPoint(annotation.coordinate)
+        
+            let pointRect = MKMapRect(x: annonationPoint.x, y: annonationPoint.y, width: 0.01, height: 0.01)
+            
+            zoomRect = zoomRect.union(pointRect)
+        }
+    let insects = UIEdgeInsets(top: 100, left: 100, bottom: 250, right: 100)
+   setVisibleMapRect(zoomRect, edgePadding: insects, animated: true)
+        
+    }
+    
+    
+    
+    
+}

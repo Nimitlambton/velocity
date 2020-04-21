@@ -29,7 +29,7 @@ class homeController: UIViewController {
     func executeSearch(query: String) {
            
         searchBy(naturalLanguageQuery: query) { (Placemark) in
-            print("did complete\(Placemark)")
+            //print("did complete\(Placemark)")
             self.searchresult = Placemark
             self.tabelView.reloadData()
         }
@@ -43,8 +43,10 @@ class homeController: UIViewController {
     private let mapView = MKMapView()
     private let  locationManager = locationHandler.shared.locationManager
     private let inputActivationView = LocationInputActiviationView()
-    private let locationinputView = LocationInputView()
+   
     private let rideActionView = RideActivationView()
+    
+    private let locationinputView = LocationInputView()
     private final let locationInputViewHeight : CGFloat = 200
     private final let rideActionViewHeight : CGFloat = 300
     private var searchresult = [MKPlacemark]()
@@ -86,9 +88,11 @@ class homeController: UIViewController {
         configureNavigation()
         checkIFUSerLoggesIn()
         enablelocation()
-        animateRideActionView(shouldShow: false)
         view.backgroundColor = .green
-        
+        configureRideActionView()
+        self.animateRideActionView(shouldShow: false)
+       
+  
     }
     
     //MARK: SELECTORS
@@ -108,6 +112,7 @@ class homeController: UIViewController {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
                 self.animateRideActionView(shouldShow: false)
+                
             }
       
             
@@ -215,41 +220,27 @@ class homeController: UIViewController {
 
     //MARK: - Helper Functions
     
-    
     func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil ){
-      
-let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
-    
-    self.view.frame.height
+            
+      let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
+          
+          self.view.frame.height
 
-        if shouldShow{
-            
-            guard let destination = destination else {return}
-       
-           rideActionView.destination = destination
-            
-        
-        }
-        
-        
-        
-        UIView.animate(withDuration: 0.3) {
-            
-         self.rideActionView.frame.origin.y = yorigin
-       
-        }
-            
-            
-     
+              if shouldShow{
+                guard let destination = destination else {return}
+                  rideActionView.destination = destination
+              }
+              UIView.animate(withDuration: 0.3) {
+                  
+               self.rideActionView.frame.origin.y = yorigin
+             
+              }
+              }
+    
+    
+    
+    
 
-        }
-       
-        
-    
-    
-    
-    
-    
     func removeAnotationAndOverlays(){
 
         mapView.annotations.forEach { (annotation) in
@@ -274,7 +265,7 @@ let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
         case .dismissActionView:
         
             actionButton.setImage(#imageLiteral(resourceName: "baseline_arrow_back_black_36dp-1"), for: .normal)
-                  actionButtonConfig = .dismissActionView
+            actionButtonConfig = .dismissActionView
         
         }
         
@@ -287,7 +278,7 @@ let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
                          UIView.animate(withDuration: 0.6, animations: {
                            self.locationinputView.alpha = 0
                            self.tabelView.frame.origin.y = self.view.frame.height
-                          
+                       
                          })
         }, completion: comp)
   
@@ -307,21 +298,10 @@ let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
    
        func configureUI(){
         configuremap()
-        
         //HamBurger menu
         
         view.addSubview(actionButton)
         actionButton.myanchor(top: view.safeAreaLayoutGuide.topAnchor ,  left:view.leftAnchor , paddingTop: 16 , paddingLeft: 16 , width: 30 , height: 30 )
-        
-        //configure Activation view
-        
-        
-        configureRiderActionView()
-        
-        
-        
-        
-        
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
         inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
@@ -333,12 +313,7 @@ let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
         }
          
        }
-    
-    func configureRiderActionView(){
-        
-        view.addSubview(rideActionView)
-        rideActionView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width, height: rideActionViewHeight)
-    }
+  
 
     
     func  configuremap(){
@@ -368,6 +343,18 @@ let yorigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight :
                      }
         }
     }
+    
+    
+    func configureRideActionView(){
+           
+           view.addSubview(rideActionView)
+           rideActionView.delegate = self
+           rideActionView.frame = CGRect(x: 0, y: view.frame.height-300, width: view.frame.width , height: 300)
+        
+           
+       }
+    
+    
     
     
     func configureTableView(){
@@ -477,23 +464,21 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        let selectedPlacemark = searchresult[indexPath.row]
-       // var ann = [MKAnnotation]()
         configureActionButton(config: .dismissActionView)
 
         dismissLocationViw { _ in
- 
-            let desination = MKMapItem(placemark: selectedPlacemark)
-            self.generatePolyline(toDestination: desination )
-            //print(selectedPlacemark.address)
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = selectedPlacemark.coordinate
-            self.mapView.addAnnotation(annotation)
-            self.mapView.selectAnnotation(annotation, animated: true)
-            
-            let annontations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
-        self.mapView.showAnnotations(annontations, animated: true)
-            self.animateRideActionView(shouldShow: true,destination:  selectedPlacemark)
-        
+         
+                let desination = MKMapItem(placemark: selectedPlacemark)
+                self.generatePolyline(toDestination: desination )
+                //print(selectedPlacemark.address)
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = selectedPlacemark.coordinate
+                self.mapView.addAnnotation(annotation)
+                self.mapView.selectAnnotation(annotation, animated: true)
+                
+                let annontations = self.mapView.annotations.filter({ !$0.isKind(of: DriverAnnotation.self)})
+            self.mapView.showAnnotations(annontations, animated: true)
+                self.animateRideActionView(shouldShow: true,destination:  selectedPlacemark)
         }
         
         
@@ -541,9 +526,7 @@ private extension homeController {
                func searchBy(naturalLanguageQuery : String , completion : @escaping([MKPlacemark]) ->Void){
                    
                    var result = [MKPlacemark]()
-                
-                
-                let request = MKLocalSearch.Request()
+                   let request = MKLocalSearch.Request()
                 
                 request.region = mapView.region
                 request.naturalLanguageQuery = naturalLanguageQuery
@@ -579,3 +562,36 @@ private extension homeController {
     }
     
 }
+
+    
+extension homeController : rideActivityDelegate{
+    func uploadTrip(_ View: RideActivationView) {
+     
+        
+        print("22hellwowolrd")
+          
+          guard let pickupCoordinates = locationManager.location?.coordinate  else {  return }
+        guard let destinationCoordinates =  View.destination?.coordinate  else {  return }
+          
+        Service.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
+            if let error = Error{
+                
+                print("heyworld")
+                
+            }
+        }
+        
+        
+        
+    }
+    
+   
+    
+    
+  
+    
+    
+    
+    
+}
+
