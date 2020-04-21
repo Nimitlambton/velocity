@@ -24,6 +24,7 @@
 		384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EC2443D8A000D9C3CC /* signUpController.swift */; };
 		384573EF2444173100D9C3CC /* authButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384573EE2444173100D9C3CC /* authButton.swift */; };
 		384ABD81244E92CA00635B97 /* RideActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384ABD80244E92CA00635B97 /* RideActivationView.swift */; };
+		384ABD83244EBA9300635B97 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384ABD82244EBA9300635B97 /* Trip.swift */; };
 		384CC4F4244A61F000F1E86B /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384CC4F3244A61F000F1E86B /* DriverAnnotation.swift */; };
 		386651922447E51800445056 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386651912447E51800445056 /* LocationCell.swift */; };
 		8746E5DE7C93FD466C11E154 /* Pods_velocity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D776C98D84D5DAB81483BD24 /* Pods_velocity.framework */; };
@@ -49,6 +50,7 @@
 		384573EC2443D8A000D9C3CC /* signUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signUpController.swift; sourceTree = "<group>"; };
 		384573EE2444173100D9C3CC /* authButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authButton.swift; sourceTree = "<group>"; };
 		384ABD80244E92CA00635B97 /* RideActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideActivationView.swift; sourceTree = "<group>"; };
+		384ABD82244EBA9300635B97 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		384CC4F3244A61F000F1E86B /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		386651912447E51800445056 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		8121BD30A6ECBCD48A452294 /* Pods-velocity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-velocity.debug.xcconfig"; path = "Target Support Files/Pods-velocity/Pods-velocity.debug.xcconfig"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				3842C48D2448B91C002F7905 /* User.swift */,
 				384CC4F3244A61F000F1E86B /* DriverAnnotation.swift */,
+				384ABD82244EBA9300635B97 /* Trip.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				384573EB2443D7FD00D9C3CC /* loginController.swift in Sources */,
 				384ABD81244E92CA00635B97 /* RideActivationView.swift in Sources */,
 				384209B92442613C00035EC9 /* SceneDelegate.swift in Sources */,
+				384ABD83244EBA9300635B97 /* Trip.swift in Sources */,
 				383FC6FA2447B4B00058BB5D /* LocationInputView.swift in Sources */,
 				384CC4F4244A61F000F1E86B /* DriverAnnotation.swift in Sources */,
 				384573ED2443D8A000D9C3CC /* signUpController.swift in Sources */,

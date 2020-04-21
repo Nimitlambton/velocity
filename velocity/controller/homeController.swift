@@ -56,11 +56,18 @@ class homeController: UIViewController {
     
     
     
-    private var u : User? {
+    private var user : User? {
         
         didSet{
            
-            locationinputView.user = u
+            locationinputView.user = user
+            if user?.accountType == .passanger {
+                fetchDrivers()
+                configureInputActivationView()
+            }else{
+                
+                print("its a trap")
+            }
         
         }
     
@@ -82,7 +89,7 @@ class homeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // signOut()
+        //signOut()
         configureUI()
         configure()
         configureNavigation()
@@ -181,7 +188,7 @@ class homeController: UIViewController {
         
         guard  let uid = Auth.auth().currentUser?.uid else {return }
         Service.shared.fetchUserData(uid: uid) { user in
-            self.u = user
+            self.user = user
         }
 }
 
@@ -293,7 +300,7 @@ class homeController: UIViewController {
         
         configureUI()
         fetchUserData()
-        fetchDrivers()
+      //  fetchDrivers()
     }
    
        func configureUI(){
@@ -302,17 +309,25 @@ class homeController: UIViewController {
         
         view.addSubview(actionButton)
         actionButton.myanchor(top: view.safeAreaLayoutGuide.topAnchor ,  left:view.leftAnchor , paddingTop: 16 , paddingLeft: 16 , width: 30 , height: 30 )
-        view.addSubview(inputActivationView)
-        inputActivationView.centerX(inView: view)
-        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
-        inputActivationView.myanchor(top:view.safeAreaLayoutGuide.topAnchor, paddingTop: 80)
-        inputActivationView.alpha = 0
-        inputActivationView.delegate = self
-        UIView.animate(withDuration: 3) {
-            self.inputActivationView.alpha = 1
-        }
+      
          
        }
+    
+    
+    func configureInputActivationView(){
+        
+        view.addSubview(inputActivationView)
+              inputActivationView.centerX(inView: view)
+              inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+              inputActivationView.myanchor(top:view.safeAreaLayoutGuide.topAnchor, paddingTop: 80)
+             // inputActivationView.alpha = 0
+              inputActivationView.delegate = self
+                 UIView.animate(withDuration: 3) {
+                  self.inputActivationView.alpha = 1
+              }
+        
+    }
+    
   
 
     
@@ -322,7 +337,6 @@ class homeController: UIViewController {
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
         mapView.delegate = self
-    
     }
     
 
@@ -574,6 +588,7 @@ extension homeController : rideActivityDelegate{
         guard let destinationCoordinates =  View.destination?.coordinate  else {  return }
           
         Service.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
+           
             if let error = Error{
                 
                 print("heyworld")

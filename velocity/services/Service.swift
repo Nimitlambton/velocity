@@ -19,6 +19,7 @@ let REF_TRIPS = DB_REF.child("trips")
 //to fetch userData
 
 struct Service {
+    
 //    //static becasue only instance can be created
 
     static let shared = Service()
@@ -47,28 +48,17 @@ let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
         print("bcbc: \( uid)")
         print("bcbc:+\(location.coordinate)")
    
-    
         self.fetchUserData(uid: uid) { (User) in
            
             var driver = User
             driver.location = location
             completion(driver)
-            
-            
-            
         }
-        
-        
-    
-    
+
     }
-        
-        
+
         )}
-        
-        
-        
-    
+
     }
             
 
@@ -77,9 +67,10 @@ let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
         guard let uid = Auth.auth().currentUser?.uid else {return}
        
         let pickupArray = [pickupCoordinates.latitude , pickupCoordinates.longitude]
+     
         let destinationArray =  [destinationCoordinates.latitude , destinationCoordinates.longitude ]
         
-        let values = ["pickupCoordinates":pickupArray ,"destinationCoordinates" : destinationArray ]
+    let values = ["pickupCoordinates":pickupArray,"destinationCoordinates" : destinationArray, "state" : TripState.requested.rawValue  ] as [String : Any]
         
         REF_TRIPS.child(uid).updateChildValues(values, withCompletionBlock: completion)
         
@@ -87,6 +78,24 @@ let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
     }
 
 
+    
+    func observeTrips(forDriver driver :User){
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
     
