@@ -111,13 +111,10 @@ class RideActivationView: UIView {
     private lazy var inforView : UIView = {
         let view = UIView()
         view.backgroundColor = .orange
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 30)
-        label.textColor = .white
-        label.text = "x"
-        view.addSubview(label)
-        label.centerX(inView: view)
-        label.centerY(inView: view)
+       
+        view.addSubview(inforViewLabel)
+        inforViewLabel.centerX(inView: view)
+        inforViewLabel.centerY(inView: view)
         
       
 
@@ -146,6 +143,15 @@ class RideActivationView: UIView {
      }()
     
     
+    private let inforViewLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30)
+        label.textColor = .white
+        label.text = "x"
+        return label
+        
+    }()
+    
     
     
     
@@ -167,14 +173,14 @@ class RideActivationView: UIView {
         addSubview(stack)
                stack.centerX(inView: self)
                stack.myanchor(top: topAnchor, paddingTop: 12)
-        
-        
+    
         
         addSubview(inforView)
+        inforView.myanchor(top: stack.bottomAnchor,paddingTop: 10)
+          inforView.setDimensions(height: 60, width: 60)
             inforView.centerX(inView: self)
-            inforView.myanchor(top: stack.bottomAnchor,paddingTop: 16)
-            inforView.setDimensions(height: 60, width: 60)
-            inforView.layer.cornerRadius = 60 / 2
+            inforView.centerY(inView: self)
+            inforViewLabel.layer.cornerRadius = 60 / 2
         
         addSubview(velocityLabel)
            velocityLabel.myanchor(top: inforView.bottomAnchor , paddingTop: 8)
@@ -188,7 +194,7 @@ class RideActivationView: UIView {
         
         
         addSubview(actionButoon)
-               actionButoon.myanchor(left: leftAnchor , bottom: safeAreaLayoutGuide.bottomAnchor , right: rightAnchor , paddingLeft: 10 , paddingBottom: 12, paddingRight: 10 , height: 50)
+               actionButoon.myanchor(left: leftAnchor , bottom: safeAreaLayoutGuide.bottomAnchor , right: rightAnchor , paddingLeft: 10 , paddingBottom: 18, paddingRight: 12 , height: 50)
         
       let tap = UITapGestureRecognizer(target :self , action: #selector(actionbuttonPress))
         actionButoon.addGestureRecognizer(tap)
@@ -209,9 +215,19 @@ class RideActivationView: UIView {
     
     
     @objc func actionbuttonPress(){
-        
-        print("helloworlf")
-        delegate?.uploadTrip(self)
+            switch ButtonAction() {
+          
+            case .requestRide:
+                delegate?.uploadTrip(self)
+            case .cancel:
+              break
+            case .getDirection:
+             break
+            case .pickup:
+             break
+            case .dropoff:
+                break
+            }
     }
     
     
@@ -233,7 +249,6 @@ class RideActivationView: UIView {
 
             titleLabel.text = " En Route to passenger"
             buttonAction = .getDirection
-           
             actionButoon.setTitle(buttonAction.description, for: .normal)
                 
             }
@@ -244,25 +259,58 @@ class RideActivationView: UIView {
                 titleLabel.text = "Driver En Route"
                 buttonAction = .cancel
                actionButoon.setTitle(buttonAction.description, for: .normal)
-                             
-                
+
             }
+            
+            inforViewLabel.text = String(usera?.fullname.first ?? "x")
+             velocityLabel.text = usera?.fullname
+            
             
            
             break
          case .pickupPassenger:
+            
+            titleLabel.text = "arrived at passenger"
+            buttonAction  = .pickup
+            actionButoon.setTitle(buttonAction.description, for: .normal)
             break
-            case .tripInProgress:
+           
+        case .tripInProgress:
+            guard let user = usera else {return }
+            if user.accountType == .driver {
+                
+                actionButoon.setTitle("trip in progress", for: .normal)
+                actionButoon.isEnabled = false
+                
+            }else {
+                
+                buttonAction = .getDirection
+                actionButoon.setTitle(buttonAction.description, for: .normal)
+            }
             break
             case .endtrip :
-             break
+
+             guard let user = usera else {return }
+             
+              if user.accountType == .driver {
+                actionButoon.setTitle("arrived at destination", for: .normal)
+                actionButoon.isEnabled = false
+                
+              }
+              else {
+                
+                buttonAction = .dropoff
+                actionButoon.setTitle(buttonAction.description, for: .normal)
+                
+                
+             }
+             
+             
+                
+            break
         case .driverArrived:
             break
         }
-        
-        
-        
-        
     }
  
     

@@ -266,8 +266,8 @@
             filePath = "velocity/view/RideActivationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "RideActivationView"
             landmarkType = "3">
          </BreakpointContent>
