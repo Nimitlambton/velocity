@@ -16,6 +16,54 @@ protocol rideActivityDelegate : class {
     func uploadTrip(_ View : RideActivationView )
 }
 
+enum RideActionViewConfiguration {
+    case requestRide
+    case tripAccepted
+    case driverArrived
+    case pickupPassenger
+    case tripInProgress
+    
+        init() {
+                    self = .requestRide
+            }
+    
+    
+    
+    }
+
+
+enum ButtonAction :  CustomStringConvertible{
+
+    case requestRide
+    case cancel
+    case getDirection
+    case pickup
+    case dropoff
+    
+
+    var description: String{
+        switch self {
+        case .requestRide: return "GET VELOCITY"
+            case .cancel:  return "cancel"
+            case .getDirection: return "get Direction"
+            case .pickup:  return  "pickup passenger"
+            case .dropoff:    return "dropoff passenger"
+        
+        }
+        }
+    
+    init() {
+                   self = .requestRide
+           }
+      
+        
+    }
+
+
+    
+   
+
+
 class RideActivationView: UIView {
 
     var destination :MKPlacemark?{
@@ -27,6 +75,9 @@ class RideActivationView: UIView {
            }
            
        }
+    
+    var config = RideActionViewConfiguration()
+    var buttonAction = ButtonAction()
     
     
     
@@ -159,5 +210,17 @@ class RideActivationView: UIView {
         print("helloworlf")
         delegate?.uploadTrip(self)
     }
+    
+    
+    //MARK: helper function
+    func configureUI(withConfig config : RideActionViewConfiguration){
+        
+        
+        
+        
+        
+    }
+ 
+    
     
 }

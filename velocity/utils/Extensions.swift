@@ -266,7 +266,7 @@ extension UIViewController{
                 if subview.tag == 1 {
                     
                     
-                    UIView.animate(withDuration: 0.3,animations: {
+                    UIView.animate(withDuration: 0.6,animations: {
                         subview.alpha = 0
                     }) {_ in
                         

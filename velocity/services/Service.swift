@@ -101,11 +101,29 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
     func acceptTrip(trip : Trip , completion: @escaping(Error? , DatabaseReference) -> Void ){
         guard let uid = Auth.auth().currentUser?.uid else {return}
         let values = ["driverUid": uid ,"state": TripState.accepted.rawValue ] as [String : Any]
-        REF_TRIPS.child(trip.passengerUid).updateChildValues(values, withCompletionBlock: completion)
+      REF_TRIPS.child(trip.passengerUid).updateChildValues(values, withCompletionBlock: completion)
         
         
     }
     
+    //observetrips
+    
+    func observeCurrentTrip(completion: @escaping(Trip) -> Void){
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        REF_TRIPS.child(uid).observe(.value) { (DataSnapshot) in
+            
+            
+            guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
+            let uid = DataSnapshot.key
+            let trip = Trip(passengerUid: uid , dictionary: dictionary)
+            completion(trip)
+            
+        }
+        
+        
+    }
     
     
     

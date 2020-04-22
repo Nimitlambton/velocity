@@ -64,6 +64,7 @@ class homeController: UIViewController {
             print("its passenger")
                 fetchDrivers()
                 configureInputActivationView()
+                observeCurrentTrip()
             }else{
                  
                 Service.shared.observeTrips { (Trip) in
@@ -75,12 +76,18 @@ class homeController: UIViewController {
     
     
     private var trip : Trip? {
-        
         didSet{
-            guard let trip = trip else {return }
-            let controller = PickUpController(trip: trip)
-            controller.delegate = self
-            self.present(controller , animated: false)
+            
+            guard let user = user else {return}
+            
+            if user.accountType == .driver{
+                guard let trip = trip else {return }
+                      let controller = PickUpController(trip: trip)
+                      controller.delegate = self
+                      self.present(controller , animated: false)
+            }else {
+                print("showAt")
+            }
         }
         
     }
@@ -109,22 +116,10 @@ class homeController: UIViewController {
         view.backgroundColor = .green
         configureRideActionView()
         self.animateRideActionView(shouldShow: false)
-        print("kk2:\(self.trip?.state)")
        
   
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
 
-        
-        print("KK:appeared")
-        guard let abc = trip else {return}
-        print("k2k:\(abc.state)")
-    }
-    
- 
-    
-    
     
     //MARK: SELECTORS
     
@@ -156,13 +151,21 @@ class homeController: UIViewController {
     
     //MARK: -API
     
-    func observeTripss(){
-    
+    func observeCurrentTrip(){
+        
+        Service.shared.observeCurrentTrip { Trip in
+            self.trip = Trip
        
+            if Trip.state == .accepted {
+                
+                self.shouldPresnetLoadingView(false)
+                
+            }
         
-        
-        
-    }
+        }
+           
+           
+       }
 
     
     
@@ -653,17 +656,21 @@ extension homeController : rideActivityDelegate{
 }
 
 
-//
+//MARK:  extension homeController : PickupControllerDelegate
 
 extension homeController : PickupControllerDelegate{
     func didAccpted(_ trip: Trip) {
-        self.trip?.state = .accepted
-
-        
-        print("kk:entered")
        
-        print("kk:\(self.trip?.state)")
+        let annon =  MKPointAnnotation()
+        annon.coordinate = trip.pickupCoordinates
+        mapView.addAnnotation(annon)
+        mapView.selectAnnotation(annon, animated: true)
         
+        let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
+        let mapItem = MKMapItem(placemark: placemark)
+        generatePolyline(toDestination: mapItem)
+        mapView.zoomToFit(annotation: mapView.annotations)
+       // self.trip?.state = .accepted
         self.dismiss(animated: true, completion: nil)
 
     
