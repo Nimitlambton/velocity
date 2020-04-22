@@ -108,15 +108,18 @@ extension UIView{
          translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
+     
     
-    func centerY(inView view :UIView ,leftAnchor :NSLayoutXAxisAnchor? = nil , paddingLeft :CGFloat = 0 ) {
-          translatesAutoresizingMaskIntoConstraints = false
-          centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    func centerY(inView view: UIView, leftAnchor: NSLayoutXAxisAnchor? = nil,
+                 paddingLeft: CGFloat = 0, constant: CGFloat = 0) {
         
-        if let  left = leftAnchor{
-            myanchor(left :leftAnchor , paddingLeft:paddingLeft )
+        translatesAutoresizingMaskIntoConstraints = false
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant).isActive = true
+        
+        if let left = leftAnchor {
+            myanchor(left: left, paddingLeft: paddingLeft)
         }
-      }
+    }
     
     func setDimensions(height:CGFloat ,width :CGFloat){
         translatesAutoresizingMaskIntoConstraints = false
@@ -207,6 +210,75 @@ extension MKMapView {
     }
     
     
+    
+    
+}
+
+
+
+extension UIViewController{
+    
+    func shouldPresnetLoadingView(_ present :Bool , message :String? = nil){
+        
+        
+        if present{
+            
+            let loadingview = UIView()
+            loadingview.frame = self.view.frame
+            loadingview.backgroundColor = .black
+            loadingview.alpha = 0
+            loadingview.tag = 1
+
+            
+            
+            let indicator = UIActivityIndicatorView()
+            indicator.style = .whiteLarge
+            indicator.center = view.center
+            
+            let label = UILabel()
+            label.text = message
+            label.font = UIFont.systemFont(ofSize: 24)
+            label.textColor = .white
+            
+            
+            
+           view.addSubview(loadingview)
+            view.addSubview(indicator)
+            view.addSubview(label)
+            
+            
+            
+            label.centerX(inView: view)
+           
+            label.myanchor(top: indicator.bottomAnchor ,paddingTop: 32)
+            
+            indicator.startAnimating()
+            
+            
+            UIView.animate(withDuration: 0.3) {
+                loadingview.alpha = 0.7
+            }
+            
+            
+        }else {
+            
+            view.subviews.forEach{ (subview) in
+                if subview.tag == 1 {
+                    
+                    
+                    UIView.animate(withDuration: 0.3,animations: {
+                        subview.alpha = 0
+                    }) {_ in
+                        
+                        subview.removeFromSuperview()
+                    }
+                    
+                }
+            }
+            
+        }
+        
+    }
     
     
 }

@@ -59,6 +59,7 @@ class homeController: UIViewController {
     private var user : User? {
         didSet{
             locationinputView.user = user
+          
             if user?.accountType == .passanger {
             print("its passenger")
                 fetchDrivers()
@@ -66,12 +67,8 @@ class homeController: UIViewController {
             }else{
                  
                 Service.shared.observeTrips { (Trip) in
-                    
-               
                     self.trip = Trip
                 }
-                
-    
             }
         }
     }
@@ -80,11 +77,10 @@ class homeController: UIViewController {
     private var trip : Trip? {
         
         didSet{
-            
-            
-             print("mothfaca")
-           
-            
+            guard let trip = trip else {return }
+            let controller = PickUpController(trip: trip)
+            controller.delegate = self
+            self.present(controller , animated: false)
         }
         
     }
@@ -104,7 +100,7 @@ class homeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //signOut()
+      //  signOut()
         configureUI()
         configure()
         configureNavigation()
@@ -113,9 +109,22 @@ class homeController: UIViewController {
         view.backgroundColor = .green
         configureRideActionView()
         self.animateRideActionView(shouldShow: false)
+        print("kk2:\(self.trip?.state)")
        
   
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+
+        
+        print("KK:appeared")
+        guard let abc = trip else {return}
+        print("k2k:\(abc.state)")
+    }
+    
+ 
+    
+    
     
     //MARK: SELECTORS
     
@@ -603,14 +612,13 @@ private extension homeController {
     
 }
 
-    
+    //MARK: -  homeController : rideActivityDelegate
+
 extension homeController : rideActivityDelegate{
     func uploadTrip(_ View: RideActivationView) {
-     
-        
-        print("22hellwowolrd")
-          
-          guard let pickupCoordinates = locationManager.location?.coordinate  else {  return }
+    
+        shouldPresnetLoadingView(true , message: "hella ! wait , finding you a ride ")
+        guard let pickupCoordinates = locationManager.location?.coordinate  else {  return }
         guard let destinationCoordinates =  View.destination?.coordinate  else {  return }
           
         Service.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
@@ -620,6 +628,14 @@ extension homeController : rideActivityDelegate{
                 print("heyworld")
                 
             }
+            
+            
+            UIView.animate(withDuration: 0.3) {
+                
+                self.rideActionView.frame.origin.y = self.view.frame.height
+            }
+            
+            
         }
         
         
@@ -636,3 +652,24 @@ extension homeController : rideActivityDelegate{
     
 }
 
+
+//
+
+extension homeController : PickupControllerDelegate{
+    func didAccpted(_ trip: Trip) {
+        self.trip?.state = .accepted
+
+        
+        print("kk:entered")
+       
+        print("kk:\(self.trip?.state)")
+        
+        self.dismiss(animated: true, completion: nil)
+
+    
+    }
+    
+    
+    
+    
+}
