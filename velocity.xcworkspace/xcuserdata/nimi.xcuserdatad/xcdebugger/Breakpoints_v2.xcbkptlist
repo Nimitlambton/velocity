@@ -30,8 +30,8 @@
             filePath = "velocity/controller/homeController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "fetchDrivers()"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "velocity/controller/homeController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,8 +266,8 @@
             filePath = "velocity/view/RideActivationView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "RideActivationView"
             landmarkType = "3">
          </BreakpointContent>

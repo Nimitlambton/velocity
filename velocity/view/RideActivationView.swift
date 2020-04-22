@@ -22,6 +22,7 @@ enum RideActionViewConfiguration {
     case driverArrived
     case pickupPassenger
     case tripInProgress
+    case endtrip
     
         init() {
                     self = .requestRide
@@ -84,6 +85,9 @@ class RideActivationView: UIView {
     //MARK: - PROPERTIES
     
     
+    var usera : User?
+    
+    
     
     weak var delegate : rideActivityDelegate?
     
@@ -99,7 +103,6 @@ class RideActivationView: UIView {
     private let addressLabel: UILabel = {
            let label = UILabel()
            label.textColor = .lightGray
-           label.text = "helloworl123"
            label.font = UIFont.systemFont(ofSize: 16)
            label.textAlignment = .center
            return label
@@ -215,6 +218,47 @@ class RideActivationView: UIView {
     //MARK: helper function
     func configureUI(withConfig config : RideActionViewConfiguration){
         
+        
+        switch config {
+            
+        case .requestRide:
+            buttonAction = .requestRide
+            actionButoon.setTitle(buttonAction.description, for: .normal)
+            break
+        case .tripAccepted:
+            
+            guard let user = usera else {return}
+            
+            if user.accountType == .passanger{
+
+            titleLabel.text = " En Route to passenger"
+            buttonAction = .getDirection
+           
+            actionButoon.setTitle(buttonAction.description, for: .normal)
+                
+            }
+            
+            
+            else {
+                
+                titleLabel.text = "Driver En Route"
+                buttonAction = .cancel
+               actionButoon.setTitle(buttonAction.description, for: .normal)
+                             
+                
+            }
+            
+           
+            break
+         case .pickupPassenger:
+            break
+            case .tripInProgress:
+            break
+            case .endtrip :
+             break
+        case .driverArrived:
+            break
+        }
         
         
         

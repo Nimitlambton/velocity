@@ -243,8 +243,11 @@ extension UIViewController{
             
             
            view.addSubview(loadingview)
-            view.addSubview(indicator)
-            view.addSubview(label)
+            loadingview.addSubview(indicator)
+            loadingview.addSubview(label)
+            
+            
+            
             
             
             
@@ -264,8 +267,7 @@ extension UIViewController{
             
             view.subviews.forEach{ (subview) in
                 if subview.tag == 1 {
-                    
-                    
+
                     UIView.animate(withDuration: 0.6,animations: {
                         subview.alpha = 0
                     }) {_ in
