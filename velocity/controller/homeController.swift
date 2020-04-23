@@ -79,13 +79,19 @@ class homeController: UIViewController {
         didSet{
             
             guard let user = user else {return}
-            
             if user.accountType == .driver{
                 guard let trip = trip else {return }
-                      let controller = PickUpController(trip: trip)
-                      controller.delegate = self
-                      self.present(controller , animated: false)
+                print("d::\(trip.state)")
+        
+                
+    
+    let controller = PickUpController(trip: trip)
+    controller.delegate = self
+    self.present(controller , animated: false)
+                
+            
             }else {
+                
                 print("showAt")
             }
         }
@@ -306,10 +312,6 @@ func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil,
         
         
               }
-    
-    
-    
-    
 
     func removeAnotationAndOverlays(){
 
@@ -363,7 +365,7 @@ func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil,
         
         configureUI()
         fetchUserData()
-      //  fetchDrivers()
+      
     }
    
        func configureUI(){
@@ -643,41 +645,39 @@ private extension homeController {
     //MARK: -  homeController : rideActivityDelegate
 
 extension homeController : rideActivityDelegate{
+
     func uploadTrip(_ View: RideActivationView) {
     
         shouldPresnetLoadingView(true , message: "hella ! wait , finding you a ride ")
+        
         guard let pickupCoordinates = locationManager.location?.coordinate  else {  return }
+       
         guard let destinationCoordinates =  View.destination?.coordinate  else {  return }
           
         Service.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
            
             if let error = Error{
-                
                 print("heyworld")
-                
             }
-            
-            
             UIView.animate(withDuration: 0.3) {
-                
                 self.rideActionView.frame.origin.y = self.view.frame.height
             }
-            
-            
         }
-        
-        
-        
+
     }
-    
-   
-    
-    
-  
-    
-    
-    
-    
+
+    func cancelTrip() {
+            print("d::yo mootha faca ")
+        Service.shared.cancelTrip { (Error, DatabaseReference) in
+            
+            if let error = Error{
+                return
+            }
+            
+            self.animateRideActionView(shouldShow: false)
+        }
+    }
+
 }
 
 
@@ -694,22 +694,29 @@ extension homeController : PickupControllerDelegate{
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
         generatePolyline(toDestination: mapItem)
+       
         mapView.zoomToFit(annotation: mapView.annotations)
-
-        self.dismiss(animated: true) {
-Service.shared.fetchUserData(uid: trip.passengerUid) { (passenger) in
-    self.animateRideActionView(shouldShow: true, config:  .tripAccepted , user: passenger   )
-            }
+        
+        Service.shared.observeTripCancelled(trip: trip) {
             
-      
+            self.removeAnotationAndOverlays()
+            self.animateRideActionView(shouldShow: false)
+            self.mapView.zoomToFit(annotation: self.mapView.annotations)
             
             
         }
+        
 
-    
+        self.dismiss(animated: true) {
+     Service.shared.fetchUserData(uid: trip.passengerUid) { (passenger) in
+    self.animateRideActionView(shouldShow: true, config:  .tripAccepted , user: passenger   )
+            }
+
+        }
+        
+        
+        
+        
+
     }
-    
-    
-    
-    
 }

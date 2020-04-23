@@ -14,6 +14,8 @@ import MapKit
 protocol rideActivityDelegate : class {
  
     func uploadTrip(_ View : RideActivationView )
+    
+    func cancelTrip()
 }
 
 enum RideActionViewConfiguration {
@@ -54,16 +56,11 @@ enum ButtonAction :  CustomStringConvertible{
         }
     
     init() {
-                   self = .requestRide
-           }
+        self = .requestRide
+    }
       
         
     }
-
-
-    
-   
-
 
 class RideActivationView: UIView {
 
@@ -86,9 +83,7 @@ class RideActivationView: UIView {
     
     
     var usera : User?
-    
-    
-    
+
     weak var delegate : rideActivityDelegate?
     
     
@@ -110,14 +105,11 @@ class RideActivationView: UIView {
     
     private lazy var inforView : UIView = {
         let view = UIView()
-        view.backgroundColor = .orange
+         view.backgroundColor = .orange
        
         view.addSubview(inforViewLabel)
         inforViewLabel.centerX(inView: view)
         inforViewLabel.centerY(inView: view)
-        
-      
-
         return view
     }()
     
@@ -137,7 +129,7 @@ class RideActivationView: UIView {
         button.backgroundColor = .systemOrange
          button.setTitle("Get velocity", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
-       //  button.addTarget(self, action: #selector(actionbuttonPress), for: .touchUpInside)
+         button.addTarget(self, action: #selector(actionbuttonPress), for: .touchUpInside)
          return button
         
      }()
@@ -151,11 +143,7 @@ class RideActivationView: UIView {
         return label
         
     }()
-    
-    
-    
-    
-    
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -215,20 +203,49 @@ class RideActivationView: UIView {
     
     
     @objc func actionbuttonPress(){
-            switch ButtonAction() {
-          
-            case .requestRide:
-                delegate?.uploadTrip(self)
-            case .cancel:
-              break
-            case .getDirection:
-             break
-            case .pickup:
-             break
-            case .dropoff:
-                break
-            }
+           
+        
+        print("d:: btn pressed")
+        
+        switch buttonAction {
+        case .requestRide:
+        print("d::requestRide")
+        delegate?.uploadTrip(self)
+        case  .cancel:
+        print("d::cancel")
+        delegate?.cancelTrip()
+        break
+        default:
+        break
+        }
+        
+        
+        
+        
+       
     }
+    
+    
+//    switch ButtonAction {
+//           case .requestRide:
+//                    print("d::requestRide")
+//                   delegate?.uploadTrip(self)
+//               case  .cancel :
+//                   print("d::cancel")
+//                   delegate?.cancelTrip()
+//                   break
+//               case .getDirection:
+//                break
+//               case .pickup:
+//                break
+//               case .dropoff:
+//                   break
+//               }
+    
+    
+    
+    
+    
     
     
     //MARK: helper function
@@ -242,71 +259,61 @@ class RideActivationView: UIView {
             actionButoon.setTitle(buttonAction.description, for: .normal)
             break
         case .tripAccepted:
-            
             guard let user = usera else {return}
-            
             if user.accountType == .passanger{
-
             titleLabel.text = " En Route to passenger"
             buttonAction = .getDirection
             actionButoon.setTitle(buttonAction.description, for: .normal)
-                
-            }
-            
-            
+                 }
             else {
                 
-                titleLabel.text = "Driver En Route"
-                buttonAction = .cancel
-               actionButoon.setTitle(buttonAction.description, for: .normal)
-
+    titleLabel.text = "Driver En Route"
+    buttonAction = .cancel
+    print("seting fucking cancel")
+    actionButoon.setTitle(buttonAction.description, for: .normal)
             }
-            
-            inforViewLabel.text = String(usera?.fullname.first ?? "x")
-             velocityLabel.text = usera?.fullname
-            
-            
-           
-            break
-         case .pickupPassenger:
+    inforViewLabel.text = String(usera?.fullname.first ?? "x")
+    velocityLabel.text = usera?.fullname
+        break
+      
+        case .pickupPassenger:
             
             titleLabel.text = "arrived at passenger"
             buttonAction  = .pickup
             actionButoon.setTitle(buttonAction.description, for: .normal)
             break
-           
+        
         case .tripInProgress:
             guard let user = usera else {return }
+
             if user.accountType == .driver {
+            
+          actionButoon.setTitle("trip in progress", for: .normal)
+          actionButoon.isEnabled = false
                 
-                actionButoon.setTitle("trip in progress", for: .normal)
-                actionButoon.isEnabled = false
-                
-            }else {
+            }
+            
+            else {
                 
                 buttonAction = .getDirection
                 actionButoon.setTitle(buttonAction.description, for: .normal)
+                
             }
-            break
-            case .endtrip :
-
-             guard let user = usera else {return }
-             
-              if user.accountType == .driver {
+            
+        break
+        
+        case .endtrip :
+            guard let user = usera else {return }
+           
+            if user.accountType == .driver {
                 actionButoon.setTitle("arrived at destination", for: .normal)
                 actionButoon.isEnabled = false
-                
-              }
+              
+            }
               else {
-                
                 buttonAction = .dropoff
                 actionButoon.setTitle(buttonAction.description, for: .normal)
-                
-                
              }
-             
-             
-                
             break
         case .driverArrived:
             break
