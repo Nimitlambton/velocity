@@ -114,16 +114,14 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
         REF_TRIPS.child(uid).observe(.value) { (DataSnapshot) in
-            
-            
+
             guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
             let uid = DataSnapshot.key
             let trip = Trip(passengerUid: uid , dictionary: dictionary)
             completion(trip)
-            
+
         }
-        
-        
+
     }
     
     //when we remove , we listen to this.
@@ -132,7 +130,7 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
     func observeTripCancelled(trip : Trip , completion : @escaping() -> Void){
 
     REF_TRIPS.child(trip.passengerUid).observeSingleEvent(of: .childRemoved) {_ in
-        print("remoce")
+        print("remove")
           completion()
           
         

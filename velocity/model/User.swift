@@ -10,10 +10,8 @@
 import CoreLocation
 
 enum AccountType : Int {
-
     case passanger
     case driver
-    
 }
 
 

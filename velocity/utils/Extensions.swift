@@ -218,6 +218,18 @@ extension MKMapView {
 
 extension UIViewController{
     
+    
+    
+    func presentAlertController(withMessage message : String , withTitle title : String  ){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
     func shouldPresnetLoadingView(_ present :Bool , message :String? = nil){
         
         
@@ -245,16 +257,8 @@ extension UIViewController{
            view.addSubview(loadingview)
             loadingview.addSubview(indicator)
             loadingview.addSubview(label)
-            
-            
-            
-            
-            
-            
             label.centerX(inView: view)
-           
             label.myanchor(top: indicator.bottomAnchor ,paddingTop: 32)
-            
             indicator.startAnimating()
             
             
