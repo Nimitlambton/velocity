@@ -550,6 +550,21 @@ extension homeController : UITableViewDelegate ,UITableViewDataSource{
 //MARK: MAPVIEW DELEGATE
 extension homeController : MKMapViewDelegate{
     
+    
+    
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+
+        //make sure user exists
+        guard let user = self.user else {return }
+        //diffrentiate between rider and driver
+        guard user.accountType == .driver else {return }
+        
+        guard let location = userLocation.location else {return }
+        Service.shared.updateDriverLocations(location: location)
+
+    }
+    
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
     
         if let annotation = annotation as? DriverAnnotation {
@@ -632,6 +647,16 @@ private extension homeController {
     }
     
 }
+
+
+func setCustomRegion(){
+    
+    
+    
+    
+    
+}
+
 
     //MARK: -  homeController : rideActivityDelegate
 

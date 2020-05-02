@@ -151,10 +151,30 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
             
 
     }
+      
+    
+    
+    
+    
+    
+    
+        
+    func updateDriverLocations(location: CLLocation){
         
         
+      guard let uid = Auth.auth().currentUser?.uid else {return}
         
+        
+        let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+        geofire.setLocation(location, forKey: uid)
+
     }
+
+
+
+}
+
+
 
     
     
