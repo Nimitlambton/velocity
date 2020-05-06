@@ -77,7 +77,7 @@ class RideActivationView: UIView {
            
        }
     
-    var config = RideActionViewConfiguration()
+    
     var buttonAction = ButtonAction()
     
     
@@ -86,7 +86,23 @@ class RideActivationView: UIView {
     
     
     var usera : User?
+    
+    
+    
+    
+        var config = RideActionViewConfiguration(){
+    
+            didSet{
+   
+                configureUI(withConfig: config)
 
+            }
+    
+    
+        }
+
+    
+    
     weak var delegate : rideActivityDelegate?
     
     
@@ -228,31 +244,10 @@ class RideActivationView: UIView {
        
     }
     
-    
-//    switch ButtonAction {
-//           case .requestRide:
-//                    print("d::requestRide")
-//                   delegate?.uploadTrip(self)
-//               case  .cancel :
-//                   print("d::cancel")
-//                   delegate?.cancelTrip()
-//                   break
-//               case .getDirection:
-//                break
-//               case .pickup:
-//                break
-//               case .dropoff:
-//                   break
-//               }
-    
-    
-    
-    
-    
-    
+
     
     //MARK: helper function
-    func configureUI(withConfig config : RideActionViewConfiguration){
+private func configureUI(withConfig config : RideActionViewConfiguration){
         
         
         switch config {
@@ -268,6 +263,9 @@ class RideActivationView: UIView {
             buttonAction = .getDirection
             actionButoon.setTitle(buttonAction.description, for: .normal)
                  }
+                
+                
+                
             else {
                 
     titleLabel.text = "Driver En Route"
@@ -288,10 +286,9 @@ class RideActivationView: UIView {
         
         case .tripInProgress:
             guard let user = usera else {return }
-
             if user.accountType == .driver {
             
-          actionButoon.setTitle("trip in progress", for: .normal)
+        actionButoon.setTitle("trip in progress", for: .normal)
           actionButoon.isEnabled = false
                 
             }
@@ -318,9 +315,19 @@ class RideActivationView: UIView {
                 actionButoon.setTitle(buttonAction.description, for: .normal)
              }
             break
-        case .driverArrived:
+            case .driverArrived:
+
+                guard let user = usera else{return}
+
+               if user.accountType == .driver {
+                titleLabel.text = "driver Has Arrived"
+                addressLabel.text = "please meet Driver at pickup location"
+                }
+
             break
         }
+    
+    
     }
  
     

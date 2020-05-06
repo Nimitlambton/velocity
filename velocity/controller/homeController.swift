@@ -183,8 +183,35 @@ class homeController: UIViewController {
     func observeCurrentTrip(){
         
         Service.shared.observeCurrentTrip { Trip in
-        self.trip = Trip
        
+            
+            self.trip = Trip
+       
+    
+            guard let stare = Trip.state else {return}
+            
+            
+            switch stare {
+                
+                
+                
+                
+            case .requested:
+                break
+            case .accepted:
+                break
+            case .driverArrived:
+           self.rideActionView.config = .driverArrived
+
+            case .inProgress:
+                break
+            case .completed:
+                break
+            }
+            
+            
+            
+            
             if Trip.state == .accepted {
                 
                 self.shouldPresnetLoadingView(false)
@@ -300,11 +327,16 @@ func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil,
             rideActionView.destination = destination}
             
             if let user = user{
+                
                 rideActionView.usera = user
             }
 
-            rideActionView.configureUI(withConfig: config)
-     }
+      
+            rideActionView.config = config
+     
+    
+    
+    }
     
     }
 
@@ -448,7 +480,15 @@ extension homeController : CLLocationManagerDelegate{
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
-        print("hi")
+       
+      self.rideActionView.config = .pickupPassenger
+        
+        guard let trip = self.trip else {return }
+       
+    Service.shared.updateTripState(trip: trip, state: .driverArrived)
+      
+    
+    
     }
 
 
@@ -733,7 +773,7 @@ extension homeController : rideActivityDelegate{
             self.actionButtonConfig = .showMenu
             self.presentAlertController(withMessage: "yo! fucking trip cancelled!!", withTitle: "you cancelled trip !! backCharged")
             
-            self.inputActivationView.alpha = 0
+            self.inputActivationView.alpha = 1
            
           
         }
@@ -747,6 +787,8 @@ extension homeController : rideActivityDelegate{
 extension homeController : PickupControllerDelegate{
     func didAccpted(_ trip: Trip) {
        
+        self.trip = trip
+        
         let annon =  MKPointAnnotation()
         annon.coordinate = trip.pickupCoordinates
         mapView.addAnnotation(annon)
@@ -771,7 +813,9 @@ extension homeController : PickupControllerDelegate{
         }
         self.dismiss(animated: true) {
      Service.shared.fetchUserData(uid: trip.passengerUid) { (passenger) in
-    self.animateRideActionView(shouldShow: true, config:  .tripAccepted , user: passenger   )
+   
+    self.animateRideActionView(shouldShow: true, config: .tripAccepted , user: passenger   )
+           
             }
 
         }
