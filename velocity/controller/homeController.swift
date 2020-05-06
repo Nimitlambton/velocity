@@ -439,16 +439,30 @@ func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil,
     
 
   //MARK: -LOCATION SERVICES
-extension homeController {
+extension homeController : CLLocationManagerDelegate{
    
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        
+        print("o: inprogress \(region)")
+       // print("r::\(region)")
+    }
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+
+        print("hi")
+    }
+
+
+
     func enablelocation(){
+        
+        locationManager.delegate = self
        
         switch CLLocationManager.authorizationStatus() {
        
         case .notDetermined:
        print("notDetermined")
        locationManager.requestWhenInUseAuthorization()
-    case .authorizedAlways:
+       case .authorizedAlways:
        locationManager.requestWhenInUseAuthorization()
        locationManager.startUpdatingLocation()
        locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -646,16 +660,37 @@ private extension homeController {
         
     }
     
+
+    func setCustomRegion(withCoordinates coordinates :CLLocationCoordinate2D){
+    
+        let region = CLCircularRegion(center: coordinates, radius: 25, identifier:"pickUp")
+        
+        locationManager.startMonitoring(for: region)
+        
+        print("o: did1 set region\(region)")
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+
+
+
+
+
+
+
+
 }
 
 
-func setCustomRegion(){
-    
-    
-    
-    
-    
-}
+
 
 
     //MARK: -  homeController : rideActivityDelegate
@@ -697,6 +732,8 @@ extension homeController : rideActivityDelegate{
             self.actionButton.setImage(#imageLiteral(resourceName: "baseline_menu_black_36dp"), for: .normal)
             self.actionButtonConfig = .showMenu
             self.presentAlertController(withMessage: "yo! fucking trip cancelled!!", withTitle: "you cancelled trip !! backCharged")
+            
+            self.inputActivationView.alpha = 0
            
           
         }
@@ -714,6 +751,9 @@ extension homeController : PickupControllerDelegate{
         annon.coordinate = trip.pickupCoordinates
         mapView.addAnnotation(annon)
         mapView.selectAnnotation(annon, animated: true)
+        
+       setCustomRegion(withCoordinates: trip.pickupCoordinates)
+        
         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
