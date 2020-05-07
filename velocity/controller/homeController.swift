@@ -189,6 +189,7 @@ class homeController: UIViewController {
        
     
             guard let stare = Trip.state else {return}
+            guard let driverUid = Trip.driverUid else {return}
             
             
             switch stare {
@@ -199,6 +200,10 @@ class homeController: UIViewController {
             case .requested:
                 break
             case .accepted:
+                self.shouldPresnetLoadingView(false)
+                self.removeAnotationAndOverlays()
+                self.zoomForActiveTrip(withDriverUid: driverUid)
+              
                 break
             case .driverArrived:
            self.rideActionView.config = .driverArrived
@@ -245,7 +250,8 @@ class homeController: UIViewController {
               guard let driveranon = annotation as? DriverAnnotation else {return false}
 
                if driveranon.uid == driver.uid {
-                driveranon.updateAnnotationPosition(withCoordinate: coordinate)
+                driveranon.updateAnnotationPosition(withCoordinate:coordinate)
+                self.zoomForActiveTrip(withDriverUid: driver.uid)
                 return true}
                 return false
                 }
@@ -465,6 +471,35 @@ func animateRideActionView(shouldShow : Bool , destination: MKPlacemark? = nil,
         tabelView.backgroundColor = .red
         view.addSubview(tabelView)
     }
+    
+    
+
+    func zoomForActiveTrip(withDriverUid  Uid : String){
+       var annotations = [MKAnnotation]()
+                      
+        self.mapView.annotations.forEach { (Annotation) in
+
+            if let annon = Annotation as? DriverAnnotation{
+
+ if   annon.uid == Uid{
+                          annotations.append(annon) }
+
+                      if let userannon = Annotation as? MKUserLocation{
+                          
+                          
+                          annotations.append(userannon)
+                      }
+                          }
+                      }
+ self.mapView.zoomToFit(annotation:annotations )
+
+    }
+
+    
+    
+    
+    
+    
     }
 
 
@@ -645,6 +680,10 @@ extension homeController : MKMapViewDelegate{
 
 
 //MARK: MapView helper functions
+
+
+
+
 
 private extension homeController {
 

@@ -204,7 +204,7 @@ extension MKMapView {
             
             zoomRect = zoomRect.union(pointRect)
         }
-    let insects = UIEdgeInsets(top: 100, left: 100, bottom: 250, right: 100)
+    let insects = UIEdgeInsets(top: 100, left: 100, bottom: 300, right: 100)
    setVisibleMapRect(zoomRect, edgePadding: insects, animated: true)
         
     }
