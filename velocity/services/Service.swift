@@ -172,10 +172,10 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
     
     
     
-    func updateTripState(trip: Trip , state: TripState) {
+    func updateTripState(trip: Trip , state: TripState, completion: @escaping(Error? , DatabaseReference) -> Void) {
 
         
-        REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue)
+        REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue, withCompletionBlock: completion)
         
         
         
@@ -184,6 +184,11 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
 
 
 
+    
+    
+    
+    
+    
 }
 
 

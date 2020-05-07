@@ -16,6 +16,8 @@ protocol rideActivityDelegate : class {
     func uploadTrip(_ View : RideActivationView )
     
     func cancelTrip()
+    
+    func pickupPassenger()
 }
 
 enum RideActionViewConfiguration {
@@ -234,6 +236,8 @@ class RideActivationView: UIView {
         print("d::cancel")
         delegate?.cancelTrip()
         break
+        case .pickup:
+            delegate?.pickupPassenger()
         default:
         break
         }

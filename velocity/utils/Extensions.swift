@@ -191,6 +191,17 @@ extension MKPlacemark{
 
 extension MKMapView {
     
+    
+func addAnotationandSelect(forCoordinates coordinates : CLLocationCoordinate2D){
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        addAnnotation(annotation)
+      selectAnnotation(annotation, animated: true)
+        
+        
+    }
+    
     func zoomToFit(annotation: [MKAnnotation]){
         
         var zoomRect = MKMapRect.null
