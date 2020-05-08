@@ -55,9 +55,7 @@ enum ButtonAction :  CustomStringConvertible{
             case .dropoff:    return "dropoff passenger"
         
         }
-        
-        
-        
+
         }
     
     init() {
@@ -307,7 +305,8 @@ private func configureUI(withConfig config : RideActionViewConfiguration){
         break
         
         case .endtrip :
-            guard let user = usera else {return }
+           
+            guard let user = usera else { return }
            
             if user.accountType == .driver {
                 actionButoon.setTitle("arrived at destination", for: .normal)
@@ -318,6 +317,9 @@ private func configureUI(withConfig config : RideActionViewConfiguration){
                 buttonAction = .dropoff
                 actionButoon.setTitle(buttonAction.description, for: .normal)
              }
+            
+           titleLabel.text = "arrived at Destination"
+            
             break
             case .driverArrived:
 

@@ -40,8 +40,7 @@ private enum AnnotationType : String {
     
     case pickup
     case destination
-    
-    
+
 }
 
 
@@ -232,26 +231,24 @@ class homeController: UIViewController {
             
             
             switch stare {
-                
-                
-                
-                
+
             case .requested:
                 break
             case .accepted:
                 self.shouldPresnetLoadingView(false)
                 self.removeAnotationAndOverlays()
                 self.zoomForActiveTrip(withDriverUid: driverUid)
-              
                 break
             case .driverArrived:
-           self.rideActionView.config = .driverArrived
-
-            case .inProgress:
+                self.rideActionView.config = .driverArrived
+           case .inProgress:
                 self.rideActionView.config = .tripInProgress
                 break
+            case .arrivedAtDestination:
+               self.rideActionView.config = .endtrip
             case .completed:
                 break
+         
             }
             
             
@@ -571,14 +568,29 @@ extension homeController : CLLocationManagerDelegate{
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
-       
-     
-        
         guard let trip = self.trip else {return }
-       
-        Service.shared.updateTripState(trip: trip, state: .driverArrived) { (Error, DatabaseReference) in
-          self.rideActionView.config = .pickupPassenger
+
+  if region.identifier == AnnotationType.pickup.rawValue {
+                      
+                      
+Service.shared.updateTripState(trip: trip, state: .driverArrived) { (Error, DatabaseReference) in
+self.rideActionView.config = .pickupPassenger
+                      
+                  }
+ 
         }
+
+        
+         if region.identifier == AnnotationType.destination.rawValue{
+        
+             
+             Service.shared.updateTripState(trip: trip, state: .arrivedAtDestination) { (Error, DatabaseReference) in
+                                           
+             self.rideActionView.config = .endtrip
+                 
+             }
+    }
+        
       
     
     
