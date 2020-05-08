@@ -117,6 +117,9 @@ class PickUpController : UIViewController{
     
     
     func configureMapView(){
+        
+        
+        
         let region = MKCoordinateRegion(center: trip.pickupCoordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
 
         mapview.setRegion(region, animated: false)

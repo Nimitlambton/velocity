@@ -35,6 +35,17 @@ private enum ActionButtonConfiguration{
     
 }
 
+
+private enum AnnotationType : String {
+    
+    case pickup
+    case destination
+    
+    
+}
+
+
+
 class homeController: UIViewController {
     
     func executeSearch(query: String) {
@@ -197,6 +208,7 @@ class homeController: UIViewController {
           
             let mapitem = MKMapItem(placemark: placemark)
             
+            self.setCustomRegion(withtype: .destination, withCoordinates: trip.destinationCoordinates)
             self.generatePolyline(toDestination: mapitem)
         }
         
@@ -236,6 +248,7 @@ class homeController: UIViewController {
            self.rideActionView.config = .driverArrived
 
             case .inProgress:
+                self.rideActionView.config = .tripInProgress
                 break
             case .completed:
                 break
@@ -539,8 +552,22 @@ extension homeController : CLLocationManagerDelegate{
    
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         
-        print("o: inprogress \(region)")
-       // print("r::\(region)")
+
+        if region.identifier == AnnotationType.pickup.rawValue {
+            
+            
+            print("R:  \(region)" )
+            
+        }
+        
+        if region.identifier == AnnotationType.destination.rawValue{
+            
+            print("R: \(region)")
+            
+        }
+        
+        
+        
     }
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 
@@ -773,20 +800,14 @@ private extension homeController {
     }
     
 
-    func setCustomRegion(withCoordinates coordinates :CLLocationCoordinate2D){
+    func setCustomRegion(withtype type : AnnotationType ,     withCoordinates coordinates :CLLocationCoordinate2D){
     
-        let region = CLCircularRegion(center: coordinates, radius: 25, identifier:"pickUp")
+        let region = CLCircularRegion(center: coordinates, radius: 25, identifier: type.rawValue)
         
         locationManager.startMonitoring(for: region)
         
         print("o: did1 set region\(region)")
-        
-        
-        
-        
-        
-        
-        
+
     }
     
     
@@ -870,7 +891,7 @@ extension homeController : PickupControllerDelegate{
         self.mapView.addAnotationandSelect(forCoordinates: trip.pickupCoordinates)
         
         
-       setCustomRegion(withCoordinates: trip.pickupCoordinates)
+        setCustomRegion(withtype: .pickup, withCoordinates: trip.pickupCoordinates)
         
         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
