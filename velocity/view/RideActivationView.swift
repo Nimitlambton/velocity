@@ -18,6 +18,9 @@ protocol rideActivityDelegate : class {
     func cancelTrip()
     
     func pickupPassenger()
+    
+    func dropOffPassenger()
+    
 }
 
 enum RideActionViewConfiguration {
@@ -224,7 +227,7 @@ class RideActivationView: UIView {
     @objc func actionbuttonPress(){
            
         
-        print("d:: btn pressed")
+       
         
         switch buttonAction {
         case .requestRide:
@@ -236,6 +239,8 @@ class RideActivationView: UIView {
         break
         case .pickup:
             delegate?.pickupPassenger()
+        case .dropoff:
+            delegate?.dropOffPassenger()
         default:
         break
         }

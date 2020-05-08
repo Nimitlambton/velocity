@@ -247,6 +247,10 @@ class homeController: UIViewController {
             case .arrivedAtDestination:
                self.rideActionView.config = .endtrip
             case .completed:
+                self.animateRideActionView(shouldShow: false)
+                self.CenterMapOnUserLocations()
+                self.configureActionButton(config: .showMenu)
+                self.presentAlertController(withMessage: "Trip completed" , withTitle: "fucking have a nice day yo!")
                 break
          
             }
@@ -841,6 +845,24 @@ private extension homeController {
     //MARK: -  homeController : rideActivityDelegate
 
 extension homeController : rideActivityDelegate{
+    func dropOffPassenger() {
+        guard let trip = self.trip else {return }
+        
+        Service.shared.updateTripState(trip: trip, state: .completed) { (Error, DatabaseReference) in
+            
+            self.removeAnotationAndOverlays()
+            self.CenterMapOnUserLocations()
+            self.animateRideActionView(shouldShow: false)
+            
+
+            
+        }
+        
+        
+        
+        
+    }
+    
    
     func pickupPassenger() {
         
