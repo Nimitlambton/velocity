@@ -128,8 +128,7 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
     
     
     func observeTripCancelled(trip : Trip , completion : @escaping() -> Void){
-
-    REF_TRIPS.child(trip.passengerUid).observeSingleEvent(of: .childRemoved) {_ in
+        REF_TRIPS.child(trip.passengerUid).observeSingleEvent(of: .childRemoved) {_ in
         print("remove")
           completion()
           
@@ -142,12 +141,11 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
         
         
     
-       func cancelTrip(completion :   @escaping(Error? , DatabaseReference) -> Void ){
+       func deleteTrip(completion :   @escaping(Error? , DatabaseReference) -> Void ){
             
             
              guard let uid = Auth.auth().currentUser?.uid else {return}
-            
-            REF_TRIPS.child(uid).removeValue (completionBlock: completion)
+             REF_TRIPS.child(uid).removeValue (completionBlock: completion)
             
 
     }
@@ -177,7 +175,11 @@ guard let dictionary = DataSnapshot.value as? [String: Any] else {return}
         
         REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue, withCompletionBlock: completion)
         
-        
+        if state == .completed {
+            
+            REF_TRIPS.child(trip.passengerUid).removeAllObservers()
+            
+        }
         
         
     }

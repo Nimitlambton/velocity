@@ -190,7 +190,7 @@ class homeController: UIViewController {
     
     //MARK: -API
     
-    func startTrip(){
+    func  startTrip(){
         
         
         guard let trip = self.trip else {return }
@@ -209,6 +209,12 @@ class homeController: UIViewController {
             
             self.setCustomRegion(withtype: .destination, withCoordinates: trip.destinationCoordinates)
             self.generatePolyline(toDestination: mapitem)
+            
+            
+            self.mapView.zoomToFit(annotation: self.mapView.annotations)
+            
+            
+            
         }
         
         
@@ -247,10 +253,13 @@ class homeController: UIViewController {
             case .arrivedAtDestination:
                self.rideActionView.config = .endtrip
             case .completed:
-                self.animateRideActionView(shouldShow: false)
-                self.CenterMapOnUserLocations()
-                self.configureActionButton(config: .showMenu)
-                self.presentAlertController(withMessage: "Trip completed" , withTitle: "fucking have a nice day yo!")
+                Service.shared.deleteTrip { (Error, DatabaseReference) in
+                    self.animateRideActionView(shouldShow: false)
+                    self.CenterMapOnUserLocations()
+                    self.configureActionButton(config: .showMenu)
+                    self.inputActivationView.alpha = 1
+                    self.presentAlertController(withMessage: "Trip completed" , withTitle: "fucking have a nice day yo!")
+                }
                 break
          
             }
@@ -893,7 +902,7 @@ extension homeController : rideActivityDelegate{
     
     //tocancel trip
     func cancelTrip() {
-        Service.shared.cancelTrip { (Error, DatabaseReference) in
+        Service.shared.deleteTrip { (Error, DatabaseReference) in
             
             if let error = Error{
                 return
@@ -935,7 +944,6 @@ extension homeController : PickupControllerDelegate{
         mapView.zoomToFit(annotation: mapView.annotations)
         
         Service.shared.observeTripCancelled(trip: trip) {
-             //self.CenterMapOnUserLocations()
             self.removeAnotationAndOverlays()
             self.animateRideActionView(shouldShow: false)
             self.mapView.zoomToFit(annotation: self.mapView.annotations)
