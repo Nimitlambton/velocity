@@ -160,12 +160,20 @@
 		384209CE2442648100035EC9 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				38C9E283246664DC004F6FDE /* SideMenu */,
 				384573EA2443D7FD00D9C3CC /* loginController.swift */,
 				384573EC2443D8A000D9C3CC /* signUpController.swift */,
 				383FC6F5244666920058BB5D /* homeController.swift */,
 				384ABD84244FA4FD00635B97 /* PickUpController.swift */,
 			);
 			path = controller;
+			sourceTree = "<group>";
+		};
+		38C9E283246664DC004F6FDE /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SideMenu;
 			sourceTree = "<group>";
 		};
 		B6DD4EBBB53D2396268EDA62 /* Frameworks */ = {

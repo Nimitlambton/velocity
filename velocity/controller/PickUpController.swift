@@ -106,7 +106,7 @@ class PickUpController : UIViewController{
     
     @objc func handelAcceptTrip(){
           
-        Service.shared.acceptTrip(trip: trip) { (Error  , DatabaseReference) in
+      DriverServices.shared.acceptTrip(trip: trip) { (Error  , DatabaseReference) in
          
             self.delegate?.didAccpted(self.trip)
         

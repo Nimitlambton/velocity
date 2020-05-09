@@ -99,7 +99,7 @@ class homeController: UIViewController {
                 observeCurrentTrip()
             }else{
                  
-                Service.shared.observeTrips { (Trip) in
+                DriverServices.shared.observeTrips { (Trip) in
                     self.trip = Trip
                 }
             }
@@ -188,7 +188,45 @@ class homeController: UIViewController {
     
     
     
-    //MARK: -API
+    //MARK: -  PASSENGER API
+    
+    
+    
+    
+    
+    
+    //MARK: -  Driver API
+    func observeCancelTrip(trip : Trip){
+        
+        
+        DriverServices.shared.observeTripCancelled(trip: trip) {
+             self.removeAnotationAndOverlays()
+             self.animateRideActionView(shouldShow: false)
+             self.mapView.zoomToFit(annotation: self.mapView.annotations)
+             self.presentAlertController(withMessage: "yo! fucking trip cancelled!!", withTitle: "sad")
+            
+         
+        }
+        
+        }
+    
+    
+     //MARK: -  Universal API
+    
+    func fetchUserData(){
+           
+           guard  let uid = Auth.auth().currentUser?.uid else {return }
+           Service.shared.fetchUserData(uid: uid) { user in
+               self.user = user
+           }
+            }
+    
+    
+    
+    
+    
+    
+    
     
     func  startTrip(){
         
@@ -196,11 +234,11 @@ class homeController: UIViewController {
         guard let trip = self.trip else {return }
         
         
-        Service.shared.updateTripState(trip: trip, state: .inProgress) { (Error, DatabaseReference) in
+        DriverServices.shared.updateTripState(trip: trip, state: .inProgress) { (Error, DatabaseReference) in
             
             self.rideActionView.config =  .tripInProgress
             self.removeAnotationAndOverlays()
-    self.mapView.addAnotationandSelect(forCoordinates: trip.destinationCoordinates)
+      self.mapView.addAnotationandSelect(forCoordinates: trip.destinationCoordinates)
             
             
             let placemark = MKPlacemark(coordinate: trip.destinationCoordinates)
@@ -212,9 +250,7 @@ class homeController: UIViewController {
             
             
             self.mapView.zoomToFit(annotation: self.mapView.annotations)
-            
-            
-            
+
         }
         
         
@@ -226,7 +262,7 @@ class homeController: UIViewController {
     
     func observeCurrentTrip(){
         
-        Service.shared.observeCurrentTrip { Trip in
+        PassengerServices.shared.observeCurrentTrip { Trip in
        
             
             self.trip = Trip
@@ -253,7 +289,7 @@ class homeController: UIViewController {
             case .arrivedAtDestination:
                self.rideActionView.config = .endtrip
             case .completed:
-                Service.shared.deleteTrip { (Error, DatabaseReference) in
+                PassengerServices.shared.deleteTrip { (Error, DatabaseReference) in
                     self.animateRideActionView(shouldShow: false)
                     self.CenterMapOnUserLocations()
                     self.configureActionButton(config: .showMenu)
@@ -286,7 +322,7 @@ class homeController: UIViewController {
 
         guard let location = locationManager.location else {return}
         print("nkdsa\(location)")
-        Service.shared.fetchDrivers(location: location) { (driver) in
+       PassengerServices.shared.fetchDrivers(location: location) { (driver) in
             
             guard let coordinate = driver.location?.coordinate else {return}
             let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
@@ -319,13 +355,7 @@ class homeController: UIViewController {
 
     
     
-    func fetchUserData(){
-        
-        guard  let uid = Auth.auth().currentUser?.uid else {return }
-        Service.shared.fetchUserData(uid: uid) { user in
-            self.user = user
-        }
-         }
+   
 
     
     func  checkIFUSerLoggesIn()  {
@@ -586,7 +616,7 @@ extension homeController : CLLocationManagerDelegate{
   if region.identifier == AnnotationType.pickup.rawValue {
                       
                       
-Service.shared.updateTripState(trip: trip, state: .driverArrived) { (Error, DatabaseReference) in
+DriverServices.shared.updateTripState(trip: trip, state: .driverArrived) { (Error, DatabaseReference) in
 self.rideActionView.config = .pickupPassenger
                       
                   }
@@ -597,7 +627,7 @@ self.rideActionView.config = .pickupPassenger
          if region.identifier == AnnotationType.destination.rawValue{
         
              
-             Service.shared.updateTripState(trip: trip, state: .arrivedAtDestination) { (Error, DatabaseReference) in
+             DriverServices.shared.updateTripState(trip: trip, state: .arrivedAtDestination) { (Error, DatabaseReference) in
                                            
              self.rideActionView.config = .endtrip
                  
@@ -734,7 +764,7 @@ extension homeController : MKMapViewDelegate{
         guard user.accountType == .driver else {return }
         
         guard let location = userLocation.location else {return }
-        Service.shared.updateDriverLocations(location: location)
+        DriverServices.shared.updateDriverLocations(location: location)
 
     }
     
@@ -857,7 +887,7 @@ extension homeController : rideActivityDelegate{
     func dropOffPassenger() {
         guard let trip = self.trip else {return }
         
-        Service.shared.updateTripState(trip: trip, state: .completed) { (Error, DatabaseReference) in
+        DriverServices.shared.updateTripState(trip: trip, state: .completed) { (Error, DatabaseReference) in
             
             self.removeAnotationAndOverlays()
             self.CenterMapOnUserLocations()
@@ -887,7 +917,7 @@ extension homeController : rideActivityDelegate{
        
         guard let destinationCoordinates =  View.destination?.coordinate  else {  return }
           
-        Service.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
+     PassengerServices.shared.uploadTrip(pickupCoordinates, destinationCoordinates) { (Error, DatabaseReference) in
            
             if let error = Error{
                 print("heyworld")
@@ -902,7 +932,7 @@ extension homeController : rideActivityDelegate{
     
     //tocancel trip
     func cancelTrip() {
-        Service.shared.deleteTrip { (Error, DatabaseReference) in
+       PassengerServices.shared.deleteTrip { (Error, DatabaseReference) in
             
             if let error = Error{
                 return
@@ -936,20 +966,14 @@ extension homeController : PickupControllerDelegate{
         
         setCustomRegion(withtype: .pickup, withCoordinates: trip.pickupCoordinates)
         
-        
+         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
         generatePolyline(toDestination: mapItem)
        
         mapView.zoomToFit(annotation: mapView.annotations)
+        observeCancelTrip(trip:trip)
         
-        Service.shared.observeTripCancelled(trip: trip) {
-            self.removeAnotationAndOverlays()
-            self.animateRideActionView(shouldShow: false)
-            self.mapView.zoomToFit(annotation: self.mapView.annotations)
-            self.presentAlertController(withMessage: "yo! fucking trip cancelled!!", withTitle: "sad")
-           
-        }
         self.dismiss(animated: true) {
      Service.shared.fetchUserData(uid: trip.passengerUid) { (passenger) in
    
