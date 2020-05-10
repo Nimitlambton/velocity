@@ -24,7 +24,10 @@ class container: UIViewController, homeControllerDelegate {
     //MARK: -PROPERTIES
    
     private let  homecontroller = homeController()
-    private var menucontroller = menuController()
+    private var menucontroller:  menuController!
+    
+    
+    
     private var isexpanded = false
     
     //MARK: -LifeCycle
@@ -81,7 +84,7 @@ class container: UIViewController, homeControllerDelegate {
     
    
     func configureMenuController(withUser user : User){
-        
+        menucontroller = menuController(user: user)
         addChild(menucontroller)
         menucontroller.didMove(toParent: self)
         view.insertSubview(menucontroller.view, at: 0)
