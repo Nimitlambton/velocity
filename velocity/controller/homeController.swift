@@ -14,6 +14,7 @@ import MapKit
 
 
 
+
 //identifiers - to identifie uniquely
 
 private let reuseIdentifier = "LocationCell"
@@ -42,6 +43,13 @@ private enum AnnotationType : String {
     case destination
 
 }
+protocol homeControllerDelegate: class {
+    
+    func handelMenuToggel()
+    
+}
+
+
 
 
 
@@ -86,9 +94,11 @@ class homeController: UIViewController {
     private var route : MKRoute?
     
     
+    weak var delegate : homeControllerDelegate?
+    
     //User is initiated  here and diffrenciated
     
-    private var user : User? {
+    var user : User? {
         didSet{
             locationinputView.user = user
           
@@ -171,7 +181,7 @@ class homeController: UIViewController {
         
         switch actionButtonConfig {
         case .showMenu:
-            print("abc")
+            delegate?.handelMenuToggel()
         case .dismissActionView:
            removeAnotationAndOverlays()
             mapView.showAnnotations(mapView.annotations, animated: true)
