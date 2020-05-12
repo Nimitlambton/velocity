@@ -165,7 +165,7 @@ class homeController: UIViewController {
         configureUI()
         configure()
         configureNavigation()
-        checkIFUSerLoggesIn()
+       // checkIFUSerLoggesIn()
         enablelocation()
         view.backgroundColor = .green
         configureRideActionView()
@@ -367,33 +367,13 @@ class homeController: UIViewController {
     
    
 
-    
-    func  checkIFUSerLoggesIn()  {
-        
-       
-        if Auth.auth().currentUser?.uid == nil {
-        let controller = loginController()
-        navigationController?.pushViewController(controller, animated: true)
-        }
-        else{
-          configure()
-        }
-    }
+   
     
     
     
     
     
-    func signOut(){
-        do{
-            try Auth.auth().signOut()
-        }catch let error {
-
-            print("error occurs")
-        }
-
-        }
-        
+  
     
     
     //to hide navigation bar

@@ -25,18 +25,30 @@ class container: UIViewController, homeControllerDelegate {
    
     private let  homecontroller = homeController()
     private var menucontroller:  menuController!
-    
-    
-    
+    private let blackView  = UIView()
     private var isexpanded = false
     
     //MARK: -LifeCycle
     override func viewDidLoad() {
            super.viewDidLoad()
-           view.backgroundColor = .systemBackground
-           fetchUserData()
+        
+        checkIFUSerLoggesIn()
+        
+      
+        
+        
+        
     }
+    
+
        
+    func configureNavigation(){
+            navigationController?.navigationBar.isHidden = true
+    
+    }
+    
+    
+
 
     //MARK: -Selectors
     
@@ -70,6 +82,22 @@ class container: UIViewController, homeControllerDelegate {
     
     
     
+       func  checkIFUSerLoggesIn()  {
+           
+          
+           if Auth.auth().currentUser?.uid == nil {
+           let controller = loginController()
+           navigationController?.pushViewController(controller, animated: true)
+           }
+           else{
+           configureNavigation()
+           view.backgroundColor = .systemBackground
+           fetchUserData()
+           }
+       }
+    
+    
+    
     
     func configureHomeController(){
         
@@ -90,20 +118,60 @@ class container: UIViewController, homeControllerDelegate {
         view.insertSubview(menucontroller.view, at: 0)
         menucontroller.user = user
         
+        menucontroller.delegate = self
+        
+        
+    }
+    func configureBlackView(){
+        
+        
+        blackView.frame = self.view.bounds
+        blackView.backgroundColor = UIColor(white: 0 , alpha:  0.5)
+        blackView.alpha = 0
+        view.addSubview(blackView)
+        
+      let tap = UITapGestureRecognizer(target: self, action: #selector(dismissMenu) )
+        
+        
+        blackView.addGestureRecognizer(tap)
+        
         
     }
     
-    func animateMenu(shouldExpand : Bool){
+    @objc func dismissMenu(){
+        
+        isexpanded = false
+        
+        animateMenu(shouldExpand: isexpanded)
+        
+        
+    }
+    
+   
+
+    
+
+    
+    
+    
+    
+    func animateMenu(shouldExpand : Bool , completion:(( Bool ) -> Void)?=nil ){
+        
+        let xOrigin = self.view.frame.width - 80
         if shouldExpand {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                self.homecontroller.view.frame.origin.x = self.view.frame.width - 80
+                self.homecontroller.view.frame.origin.x = xOrigin
+    
+                self.blackView.alpha = 1
+                self.blackView.frame = CGRect(x: xOrigin, y: 0, width: 80, height: self.view.frame.height)
+                
             }, completion: nil)
             
         }else {
-            
-UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+        self.blackView.alpha = 0
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
                 self.homecontroller.view.frame.origin.x = 0
-                       }, completion: nil)
+                       }, completion: completion)
             
         }
         
@@ -111,4 +179,63 @@ UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initial
     }
     
     
+    func signOut(){
+        
+        
+                 do{
+                  
+        
+        navigationController?.pushViewController(loginController(), animated: true)
+         
+                    
+         try Auth.auth().signOut()
+                    
+                    
+                 }catch let error {
+
+                     print("error occurs")
+                 }
+
+                 }
+    
+    
+}
+
+
+extension container : menuControllerDelegate{
+    func didSelect(option: MenuOptions) {
+        isexpanded.toggle()
+        animateMenu(shouldExpand: isexpanded) { _ in
+            switch option {
+             case .yourTrips:
+                 break
+             case .Settings:
+                
+                guard  let user = self.user else {
+                    return
+                }
+                
+                let controller = SettingContoller(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+                
+                  break
+             case .logout:
+                 let alert = UIAlertController(title: nil, message:"wanna Logout??" , preferredStyle: .actionSheet)
+         
+                 alert.addAction(UIAlertAction(title: "LogOut", style: .destructive, handler: { _ in
+                     self.signOut()
+                     
+                 }))
+                 
+                 alert.addAction(UIAlertAction(title: "Canel", style: .cancel, handler: nil))
+                 
+                 self.present(alert, animated: true , completion: nil)
+             
+             }
+        }
+    
+    
+        
+    
+    }
 }

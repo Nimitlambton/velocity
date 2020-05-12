@@ -51,6 +51,9 @@ class loginController: UIViewController {
     b.setTitle("Log In" ,for: .normal)
     b.addTarget(self, action:  #selector(handelLogin), for: .touchUpInside)
     return b
+    
+    
+    
        }()
     
     let dontHaveAccountButoon :UIButton = {
@@ -106,7 +109,8 @@ class loginController: UIViewController {
             if let error = error{
             print(error)
             return}
-         self.navigationController?.popToRootViewController(animated: true)
+
+            self.navigationController?.pushViewController(container(), animated: true)
 
         }
     }

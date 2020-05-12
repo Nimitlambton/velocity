@@ -12,17 +12,7 @@ import UIKit
 
 
 class menuHeader : UIView {
-    
-    
-//    var user: User?{
-//
-//        didSet{
-//
-//            titleLabel.text = user?.fullname
-//            addressLabel.text = user?.email
-//        }
-//
-//    }
+
     
     private let user: User
     
