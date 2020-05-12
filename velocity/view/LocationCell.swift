@@ -22,7 +22,21 @@ class LocationCell: UITableViewCell {
         }
     }
     
-       private let titleLabel: UILabel = {
+    
+    
+    var type : locationTtype?{
+
+        didSet {
+
+          
+            addressLabel.text = type?.description
+
+        }
+
+
+    }
+    
+      let titleLabel: UILabel = {
        let label = UILabel()
         label.text = "Velocity"
         label.font = UIFont(name: "ChalkboardSE-Bold", size: 12)
@@ -32,7 +46,7 @@ class LocationCell: UITableViewCell {
         
     }()
 
-    private let addressLabel: UILabel = {
+  let addressLabel: UILabel = {
        let label = UILabel()
        // label.text = "Velocity1233"
           label.font = UIFont.systemFont(ofSize: 14)
