@@ -203,18 +203,44 @@ extension SettingContoller {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-      
+        
+        
        guard let type = locationTtype(rawValue: indexPath.row) else {return }
         
         guard let location = locationManager.location else {return }
         
         let controller = AddLocationController(type: type, location: location)
+        
+        controller.delegate = self
        
         navigationController?.pushViewController(controller, animated: true)
         
         
         
     }
+    
+    
+    
+}
+
+
+
+
+
+extension SettingContoller : addLocationControllerDelegate {
+  
+    func updatelocation(locationString: String, type: locationTtype) {
+        
+        PassengerServices.shared.saveLocation(locationString: locationString, type: type) { (Error, DatabaseReference) in
+            
+            self.navigationController?.popViewController(animated: true)
+            
+            
+        }
+        
+    }
+    
+    
     
     
     

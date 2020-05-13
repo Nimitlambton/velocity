@@ -10,6 +10,9 @@ import Foundation
 import  UIKit
 import MapKit
 
+protocol addLocationControllerDelegate : class {
+    func updatelocation(locationString : String , type : locationTtype)
+}
 
 
 class AddLocationController : UITableViewController, UISearchBarDelegate {
@@ -27,7 +30,7 @@ class AddLocationController : UITableViewController, UISearchBarDelegate {
     private let type : locationTtype
     private let location  : CLLocation
     
-    
+    weak var delegate : addLocationControllerDelegate?
     
     init(type : locationTtype , location : CLLocation) {
         self.type  = type
@@ -100,6 +103,17 @@ extension AddLocationController{
         
         return cell
     }
+    
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let result  = searachResults[indexPath.row]
+        let title =  result.title
+        let subtitle = result.subtitle
+        let locationString = title + " " + subtitle
+        delegate?.updatelocation(locationString:  locationString , type: type)
+    }
 
     
     
@@ -149,3 +163,4 @@ extension AddLocationController : MKLocalSearchCompleterDelegate {
     
     
 }
+

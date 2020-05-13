@@ -195,6 +195,20 @@ struct PassengerServices {
     
     
     
+    func saveLocation(locationString : String , type : locationTtype, completion: @escaping (Error? , DatabaseReference) -> Void  ) {
+        
+         guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        let key : String = type == .home ? "homelocation" : "worklocation"
+        
+        REF_USERS.child(uid).child(key).setValue(locationString , withCompletionBlock: completion)
+        
+        
+        
+    }
+    
+    
+    
     
     
 }
