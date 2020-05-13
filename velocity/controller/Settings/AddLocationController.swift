@@ -111,8 +111,10 @@ extension AddLocationController{
         let result  = searachResults[indexPath.row]
         let title =  result.title
         let subtitle = result.subtitle
-        let locationString = title + " " + subtitle
-        delegate?.updatelocation(locationString:  locationString , type: type)
+        var locationString = title + " " + subtitle
+        
+       let trimmedloc = locationString.replacingOccurrences(of: "ON", with: " ")
+        delegate?.updatelocation(locationString:  trimmedloc , type: type)
     }
 
     

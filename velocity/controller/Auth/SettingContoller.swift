@@ -60,7 +60,7 @@ enum locationTtype : Int , CaseIterable , CustomStringConvertible {
 
 class SettingContoller : UITableViewController   {
     
-       private let user : User
+       private var user : User
      //for_locations and cordinates initilization
     private let  locationManager = locationHandler.shared.locationManager
     
@@ -133,6 +133,19 @@ class SettingContoller : UITableViewController   {
     }
     
     
+    func updateLocationLabels(for type : locationTtype) -> String {
+        
+        switch type {
+       
+        case .home:
+            return user.homelocation ?? type.description
+        case .work:
+            return user.worklocation ?? type.description
+        }
+        
+    }
+    
+    
     @objc func handelDismiis () {
         print("r:hello")
       
@@ -195,6 +208,8 @@ extension SettingContoller {
  guard let type = locationTtype(rawValue: indexPath.row) else {return cell}
  
         cell.type = type
+        cell.titleLabel.text = type.description
+        cell.addressLabel.text = updateLocationLabels(for: type)
         return cell
         
         
@@ -213,6 +228,9 @@ extension SettingContoller {
         
         controller.delegate = self
        
+        
+        
+        
         navigationController?.pushViewController(controller, animated: true)
         
         
@@ -233,9 +251,21 @@ extension SettingContoller : addLocationControllerDelegate {
         
         PassengerServices.shared.saveLocation(locationString: locationString, type: type) { (Error, DatabaseReference) in
             
+            
+            
+            switch type {
+                
+                
+            case .home:
+                self.user.homelocation = locationString
+            case .work:
+                self.user.worklocation = locationString
+            }
+            
+            
             self.navigationController?.popViewController(animated: true)
             
-            
+            self.tableView.reloadData()
         }
         
     }
